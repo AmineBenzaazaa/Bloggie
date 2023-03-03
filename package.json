@@ -19,6 +19,7 @@
     "react-feather": "^2.0.10",
     "react-i18next": "^12.2.0",
     "react-router-dom": "^6.8.2",
+    "react-tooltip": "^5.8.3",
     "sass": "^1.58.3"
   },
   "devDependencies": {
