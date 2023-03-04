@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Navbar from './components/Navbar'
 import Form from './components/cards/Form';
 import Image from './components/Upload/Image';
@@ -20,12 +20,17 @@ const controllers = [
   { icon: webcam, name: 'Webcam validation', count: '', type: 'switch', tooltip: false },
   { icon: timeSlice, name: 'Time expected', count: '30min', type: 'count', tooltip: false },
   { icon: retry, name: 'Attempts', count: '3', type: 'count', tooltip: false },
+  { icon: dice, name: 'Random questions', count: '10', type: 'count', tooltip: false },
+  { icon: clock, name: 'Time per question', count: '45s', type: 'count', tooltip: true },
+  { icon: checked, name: 'Passing score', count: '80%', type: 'count', tooltip: false },
 ]
 
 const acceptedFileTypes = ['image/jpeg', 'image/png'];
 
 function App() {
   const [questions, setQuestions] = useState([{ id: 1 }, { id: 2 }])
+  const [showButton, setShowButton] = useState(false);
+  const containerRef = useRef(null);
 
   const addQuestion = () => {
     setQuestions([...questions, { id: questions.length + 1 }])
@@ -42,6 +47,20 @@ function App() {
   const deleteQuestion = (id) => {
     setQuestions(questions.filter((question) => question.id !== id));
   }
+
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const handleScroll = () => {
+      setShowButton(container.scrollLeft > 0);
+    };
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [])
+
+  const handleClick = () => {
+    containerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -138,10 +157,31 @@ function App() {
         {/* End training quiz */}
 
         {/* Controllers */}
-        <div className='mb-5 flex flex-col flex-wrap lg:flex-nowrap sm:flex-row gap-3 items-stretch'>
+        {/* <div className='mb-5 flex flex-col flex-wrap lg:flex-nowrap sm:flex-row gap-3 items-stretch relative'>
           {controllers.map((controller, idx) => <Controller key={idx} {...controller} />)}
+          <div className='bg-white text-gray-450 h-fit p-1 rounded-md absolute -left-10 top-1/2 -translate-y-1/2'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+              <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+            </svg>
+          </div>
+        </div> */}
+
+        <div className='relative w-full mb-10'>
+          <div className="scroll-container" ref={containerRef}>
+            <div className='flex flex-row items-stretch gap-3 w-full'>
+              {controllers.map((controller, idx) => (
+                <div key={idx} className="flex-shrink-0 w-48">
+                  <Controller {...controller} />
+                </div>
+              ))}
+            </div>
+          </div>
+          {showButton && <button onClick={handleClick} className='bg-white text-gray-450 h-fit p-1 rounded-md absolute -left-10 top-1/2 -translate-y-1/2'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+              <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+            </svg>
+          </button>}
         </div>
-        {/* End Controllers */}
 
       </div>
     </>
