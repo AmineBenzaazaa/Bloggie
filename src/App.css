@@ -1,5 +1,4 @@
 #root {
-  /* max-width: 1280px; */
   margin: 0 auto;
   width: 100%;
   text-align: center;
@@ -12,42 +11,35 @@
   scroll-behavior: smooth;
 }
 
-/* Hide the default scrollbar */
 .scroll-container::-webkit-scrollbar {
   display: block;
 }
 
-/* Add custom scrollbar track */
 .scroll-container::-webkit-scrollbar-track {
   background-color: #E1EBF0;
   border-radius: 12px;
 }
 
-/* Add custom scrollbar thumb */
 .scroll-container::-webkit-scrollbar-thumb {
   background-color: #2C8EFF;
   border-radius: 12px;
 }
 
-/* Add custom scrollbar corner */
 .scroll-container::-webkit-scrollbar-corner {
   background-color: #E1EBF0;
   border-radius: 12px;
 }
 
-/* Add custom scrollbar width and height */
 .scroll-container::-webkit-scrollbar {
   width: 4px;
   height: 4px;
 }
 
-/* Add custom scrollbar thumb height */
 .scroll-container::-webkit-scrollbar-thumb {
   height: 50px;
   border-radius: 12px;
 }
 
-/* Show scrollbar when hovering over the container */
 .scroll-container:hover::-webkit-scrollbar {
   display: block;
 }
