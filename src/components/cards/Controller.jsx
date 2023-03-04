@@ -4,16 +4,16 @@ import info from '../../assets/info.svg'
 import 'react-tooltip/dist/react-tooltip.css'
 import { Tooltip } from 'react-tooltip'
 
-const Controller = ({ icon, name, count, type }) => {
+const Controller = ({ icon, name, count, type, tooltip }) => {
     const [webcam, setWebcam] = useState(false);
     const handleSwitch = (checked) => {
         setWebcam(checked);
     }
     const tooltipContent = 'When the countdown is finished, the system will automatically move to the next question.'
     return (
-        <div className='bg-white rounded flex flex-col justify-center items-center p-3 gap-3 w-full'>
+        <div className='shadow bg-white rounded-md flex flex-col justify-center items-center p-3 gap-3 lg:w-full'>
             <Tooltip id="info-tooltip" className='bg-white text-black rounded-md w-64 text-start shadow-sm' />
-            <img src={info} alt="info" className='self-end cursor-pointer' data-tooltip-id="info-tooltip" data-tooltip-content={tooltipContent} />
+            <img src={info} alt="info" className='self-end cursor-pointer' data-tooltip-id={tooltip && 'info-tooltip'} data-tooltip-content={tooltipContent} />
             <img src={icon} alt={name} />
             <span className='font-medium whitespace-nowrap'>{name}</span>
             {type === 'count' && <div className='flex flex-row justify-center items-stretch gap-1'>

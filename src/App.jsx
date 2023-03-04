@@ -1,7 +1,7 @@
+import './App.css'
 import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Form from './components/cards/Form';
-import './App.css'
 import Image from './components/Upload/Image';
 import File from './components/Upload/File';
 import Question from './components/Upload/Question';
@@ -14,13 +14,15 @@ import clock from './assets/clock.svg'
 import checked from './assets/checked.svg'
 
 const controllers = [
-  { icon: dice, name: 'Random questions', count: '10', type: 'count' },
-  { icon: clock, name: 'Time per question', count: '45s', type: 'count' },
-  { icon: checked, name: 'Passing score', count: '80%', type: 'count' },
-  { icon: webcam, name: 'Webcam validation', count: '', type: 'switch' },
-  { icon: timeSlice, name: 'Time expected', count: '30min', type: 'count' },
-  { icon: retry, name: 'Attempts', count: '3', type: 'count' },
+  { icon: dice, name: 'Random questions', count: '10', type: 'count', tooltip: false },
+  { icon: clock, name: 'Time per question', count: '45s', type: 'count', tooltip: true },
+  { icon: checked, name: 'Passing score', count: '80%', type: 'count', tooltip: false },
+  { icon: webcam, name: 'Webcam validation', count: '', type: 'switch', tooltip: false },
+  { icon: timeSlice, name: 'Time expected', count: '30min', type: 'count', tooltip: false },
+  { icon: retry, name: 'Attempts', count: '3', type: 'count', tooltip: false },
 ]
+
+const acceptedFileTypes = ['image/jpeg', 'image/png'];
 
 function App() {
   const [questions, setQuestions] = useState([{ id: 1 }, { id: 2 }])
@@ -44,28 +46,28 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="container max-w-7xl m-auto w-full">
+      <div className="container max-w-7xl m-auto w-full px-5 xl:px-0">
         {/* Header */}
-        <div className='flex justify-between items-center capitalize flex-col gap-3 sm:flex-row mb-5'>
-          <span className='text-gray-700 font-medium'>edit training "working at height"</span>
-          <div className='flex justify-between items-center gap-3'>
-            <button className='text-gray-400 capitalize'>cancel</button>
-            <button className='bg-orange-500 capitalize text-white'>update & save</button>
+        <div className='flex justify-between items-center capitalize flex-col gap-3 sm:flex-row mb-3 text-start'>
+          <span className='text-gray-700 font-medium w-full text-start'>edit training "working at height"</span>
+          <div className='flex justify-end items-center gap-5 w-full'>
+            <button className='text-gray-400 capitalize p-0'>cancel</button>
+            <button className='bg-orange-500 capitalize text-white px-10'>update & save</button>
           </div>
         </div>
         {/* End header */}
 
         {/* Form */}
-        <div className='flex flex-col sm:flex-row items-stretch gap-5 mb-5'>
-          <div className='sm:w-[50%] rounded bg-white p-3'>
+        <div className='flex flex-col flex-wrap lg:flex-nowrap lg:flex-row items-stretch gap-5 mb-5'>
+          <div className='shadow lg:w-[50%] rounded-md bg-white p-3'>
             <Form />
           </div>
-          <div className='sm:w-[30%] rounded bg-white p-3 flex flex-col justify-between items-start gap-2'>
+          <div className='shadow lg:w-[30%] rounded-md bg-white p-3 flex flex-col justify-between items-start gap-2'>
             <span className='text-sm text-gray-800'>Image</span>
-            <Image />
+            <Image acceptedFileTypes={acceptedFileTypes} />
             <span className='text-xs text-gray-300'>*Only JPG, PNG files are allowed. Image must be less than 2 MB</span>
           </div>
-          <div className='sm:w-[20%] rounded bg-white p-3 flex flex-col justify-between items-start gap-2 overflow-hidden'>
+          <div className='shadow lg:w-[20%] rounded-md bg-white p-3 flex flex-col justify-between items-start gap-2 overflow-hidden'>
             <span className='text-sm text-gray-800'>Training file</span>
             <File />
             <span className='text-xs text-gray-300'>*Only Video, PDF and SlideShow files are allowed.</span>
@@ -81,11 +83,11 @@ function App() {
         {/* End form */}
 
         {/* Training quiz */}
-        <div className='mb-5 bg-white p-3 text-start rounded'>
+        <div className='shadow mb-5 bg-white p-3 text-start rounded-md'>
           <h2 className='text-sm text-gray-800'>Training quiz</h2>
           <p className='text-xs text-gray-450'>Here you can manage the questions by clicking on the “Add Question” button and choose from the available types of question. You can add up to 100 questions.</p>
           <hr className='my-2' />
-          {(questions && questions.length > 0) && questions.map((question, idx) => <div className='bg-gray-425 rounded p-3 mb-2 border flex flex-col sm:flex-row gap-3 items-start' key={idx}>
+          {(questions && questions.length > 0) && questions.map((question, idx) => <div className='bg-gray-425 rounded-md p-3 mb-2 border flex flex-col sm:flex-row gap-10 items-start' key={idx}>
             <div className='w-full sm:w-[70%]'>
               <div className='flex justify-between'>
                 <h2 className='text-sm text-black mb-2 font-semibold'>Question {question.id}</h2>
@@ -99,33 +101,33 @@ function App() {
               <div className='bg-white border rounded p-2 flex justify-between items-center text-xs mb-2'>
                 False
                 <div className='flex flex-row items-center gap-2'>
-                  <div className='rounded bg-green-300 text-green-400 p-1 text-xs'>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <div className='rounded-sm bg-green-200 text-green-300 p-1 text-xs'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </div>
                   <div className='w-8 h-8'>
-                    <Question />
+                    <Question acceptedFileTypes={acceptedFileTypes} />
                   </div>
                 </div>
               </div>
               <div className='bg-white border rounded p-2 flex justify-between items-center text-xs mb-2'>
                 True
                 <div className='flex flex-row items-center gap-2'>
-                  <div className='rounded bg-green-600 text-white p-1 text-xs'>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <div className='rounded-sm bg-green-600 text-white p-1 text-xs'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </div>
                   <div className='w-8 h-8'>
-                    <Question />
+                    <Question acceptedFileTypes={acceptedFileTypes} />
                   </div>
                 </div>
               </div>
             </div>
             <div className='w-full sm:w-[30%]'>
               <div className='flex justify-between w-full'>
-                <h2 className='text-sm text-black mb-2'>Question Image</h2>
+                <h2 className='text-sm text-gray-800 mb-2 font-[600]'>Question Image</h2>
                 <span className='text-gray-650'>Optional</span>
               </div>
               <Image />
@@ -136,7 +138,7 @@ function App() {
         {/* End training quiz */}
 
         {/* Controllers */}
-        <div className='mb-5 flex flex-col sm:flex-row gap-1 items-stretch'>
+        <div className='mb-5 flex flex-col flex-wrap lg:flex-nowrap sm:flex-row gap-3 items-stretch'>
           {controllers.map((controller, idx) => <Controller key={idx} {...controller} />)}
         </div>
         {/* End Controllers */}

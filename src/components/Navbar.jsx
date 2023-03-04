@@ -44,7 +44,7 @@ const Navbar = () => {
         <>
           <div className="mx-auto px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+              <div className="absolute inset-y-0 left-0 flex items-center lg:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-black hover:text-black focus:outline-none">
                   <span className="sr-only">Open main menu</span>
@@ -59,7 +59,7 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center justify-center lg:items-stretch lg:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     src="logo.svg"
@@ -72,9 +72,9 @@ const Navbar = () => {
                     className="object-cover hidden h-10 w-auto lg:block"
                   />
                 </div>
-                <div className="hidden sm:ml-6 sm:flex items-center">
+                <div className="hidden sm:ml-6 lg:flex items-center">
                   <div className="flex space-x-4">
-                    <div className='text-xs p-2 bg-gray-350 rounded-md w-96 flex flex-row justify-start items-center gap-2'>
+                    <div className='text-xs p-2 bg-gray-350 rounded-md lg:w-72 xl:w-96 flex flex-row justify-start items-center'>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5  text-gray-500">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                       </svg>
@@ -86,7 +86,7 @@ const Navbar = () => {
                         href={item.href}
                         className={classNames(
                           item.current ? 'text-blue-500' : 'text-gray-700',
-                          'rounded-md px-3 py-2 text-sm font-[600] flex flex-row gap-2 items-center'
+                          'rounded-md xl:px-3 py-2 text-sm font-[600] flex flex-row xl:gap-2 items-center'
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -100,15 +100,17 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                {/* Notifications */}
                 <button
                   type="button"
-                  className="rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hidden md:block lg:hidden xl:block"
                 >
                   <img src={notification} alt="notification icon" className='w-6 h-6' />
                   <span className="sr-only">View notifications</span>
                 </button>
 
-                <Menu as="div" className="relative ml-3">
+                {/* Languages dropdown */}
+                <Menu as="div" className="relative ml-3 hidden md:block lg:hidden xl:block">
                   <div>
                     <Menu.Button className="flex rounded-full">
                       <ReactCountryFlag
@@ -158,7 +160,7 @@ const Navbar = () => {
                         src={avatar}
                         alt="profile"
                       />
-                      <div className='text-start'>
+                      <div className='hidden lg:block text-start'>
                         <span className='block text-sm font-semibold text-gray-800'>Blaise Defloo</span>
                         <span className='block text-xs text-gray-400'>Administrator</span>
                       </div>
@@ -208,8 +210,14 @@ const Navbar = () => {
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
+          <Disclosure.Panel className="lg:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3">
+              <div className='text-xs p-2 bg-gray-350 rounded-md w-full flex flex-row justify-start items-center gap-2'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5  text-gray-500">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                <input type="search" placeholder='Quick search...' className='outline-none bg-transparent w-full' />
+              </div>
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
@@ -217,11 +225,14 @@ const Navbar = () => {
                   href={item.href}
                   className={classNames(
                     item.current ? 'text-blue-500' : '',
-                    'block rounded-md px-3 py-2 text-sm font-medium'
+                    'rounded-md px-3 py-2 text-sm font-[600] flex flex-row gap-2 items-center'
                   )}
                   aria-current={item.current ? 'page' : undefined}
                 >
                   {item.name}
+                  {item.children && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 font-medium">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                  </svg>}
                 </Disclosure.Button>
               ))}
             </div>

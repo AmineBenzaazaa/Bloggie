@@ -2,13 +2,22 @@ import { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import cloud from '../../assets/cloudUpload.svg'
 
-const Image = () => {
+const Image = ({ acceptedFileTypes }) => {
     const [file, setFile] = useState({})
     const [change, setChange] = useState(false)
+    const [error, setError] = useState(false)
+    const maxFileSize = 2 * 1024 * 1024;
     const { getRootProps, getInputProps } = useDropzone({
         multiple: false,
-        onDrop: fl => {
-            setFile(fl.map(fl => Object.assign(fl))[0])
+        onDrop: files => {
+            if (!acceptedFileTypes) return setFile(files.map(file => Object.assign(file))[0])
+            const validFiles = files.filter(file => maxFileSize && acceptedFileTypes.includes(file.type))
+            if (validFiles && validFiles.length > 0) {
+                setError(false)
+                return setFile(validFiles.map(file => Object.assign(file))[0])
+            }
+            else
+                return setError(true)
         }
     })
 

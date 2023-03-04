@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-const Select = ({ options, selected, placeholder }) => {
+const Select = ({ options, placeholder }) => {
     const [show, setShow] = useState(false)
+    const [selected, setSelected] = useState((options && options.length > 0) ? options[0] : {})
     const selectRef = useRef(null)
     const showOptions = () => {
         if (options && options.length > 0) setShow(!show)
@@ -18,11 +19,16 @@ const Select = ({ options, selected, placeholder }) => {
         }
     }, [selectRef])
 
+    const changeOption = (idx, items) => {
+        setSelected(items[idx])
+        setShow(false)
+    }
+
     return (
         <div className='relative' ref={selectRef}>
             <div className='border rounded relative cursor-pointer' onClick={showOptions}>
-                <div className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center'>
-                    {selected ? <>
+                <div className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center h-10'>
+                    {(selected && Object.keys(selected).length > 0) ? <>
                         {selected.icon && <img src={selected.icon} alt={selected.name} className='object-cover' />}
                         <span className='capitalize font-semibold'>{selected.name}</span>
                     </> : <span className='capitalize font-medium whitespace-nowrap'>{placeholder}</span>}
@@ -32,7 +38,7 @@ const Select = ({ options, selected, placeholder }) => {
                 </svg>
             </div>
             {show && <ul className='bg-white z-10 absolute top-100 left-0 w-full border text-start mt-1 rounded'>
-                {(options && options.length > 0) && options.map((option, idx) => <li key={idx} className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center'>
+                {(options && options.length > 0) && options.map((option, idx) => <li key={idx} className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center' onClick={() => changeOption(idx, options)}>
                     {option.icon && <img src={option.icon} alt={option.name} className='w-6 h-6 object-cover' />}
                     <span>{option.name}</span>
                 </li>)}

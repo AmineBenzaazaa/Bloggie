@@ -4,16 +4,27 @@ import cloud from '../../assets/cloudUpload.svg'
 
 const File = () => {
     const [file, setFile] = useState({})
+    const [error, setError] = useState(false)
+    const acceptedFileTypes = ['video/mp4', 'video/avi', 'video/wmv', 'video/quicktime', 'application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.oasis.opendocument.presentation', 'application/x-iwork-keynote-sffkey'];
+
     const { getRootProps, getInputProps } = useDropzone({
         multiple: false,
-        onDrop: fl => {
-            setFile(fl.map(fl => Object.assign(fl))[0])
+        accept: {
+        },
+        onDrop: files => {
+            const validFiles = files.filter(file => acceptedFileTypes.includes(file.type))
+            if (validFiles && validFiles.length > 0) {
+                setError(false)
+                setFile(validFiles.map(file => Object.assign(file))[0])
+            }
+            else
+                setError(true)
         }
     })
 
     return (
         <>
-            <div {...getRootProps({ className: 'dropzone border border-dashed text-xs flex flex-col gap-2 justify-center items-center rounded w-full h-full p-5 cursor-pointer' })}>
+            <div {...getRootProps({ className: `dropzone border border-dashed text-xs flex flex-col gap-2 justify-center items-center rounded w-full h-full p-5 cursor-pointer ${error ? 'border-red-500' : ''}` })}>
                 <input {...getInputProps()} />
                 <img src={cloud} alt="" />
                 <p className='text-gray-400'>
