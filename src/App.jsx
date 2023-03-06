@@ -13,24 +13,42 @@ import retry from './assets/retry.svg'
 import clock from './assets/clock.svg'
 import checked from './assets/checked.svg'
 
-const controllers = [
-  { icon: dice, name: 'Random questions', count: '10', type: 'count', tooltip: false },
-  { icon: clock, name: 'Time per question', count: '45s', type: 'count', tooltip: true },
-  { icon: checked, name: 'Passing score', count: '80%', type: 'count', tooltip: false },
-  { icon: webcam, name: 'Webcam validation', count: '', type: 'switch', tooltip: false },
-  { icon: timeSlice, name: 'Time expected', count: '30min', type: 'count', tooltip: false },
-  { icon: retry, name: 'Attempts', count: '3', type: 'count', tooltip: false },
-  { icon: dice, name: 'Random questions', count: '10', type: 'count', tooltip: false },
-  { icon: clock, name: 'Time per question', count: '45s', type: 'count', tooltip: true },
-  { icon: checked, name: 'Passing score', count: '80%', type: 'count', tooltip: false },
-]
-
 const acceptedFileTypes = ['image/jpeg', 'image/png'];
 
 function App() {
   const [questions, setQuestions] = useState([{ id: 1 }, { id: 2 }])
   const [showButton, setShowButton] = useState(false);
   const containerRef = useRef(null);
+  const [controllers, setControllers] = useState([
+    { icon: dice, name: 'Random questions', count: 10, unit: '', type: 'count', tooltip: false },
+    { icon: clock, name: 'Time per question', count: 45, unit: 's', type: 'count', tooltip: true },
+    { icon: checked, name: 'Passing score', count: 80, unit: '%', type: 'count', tooltip: false },
+    { icon: webcam, name: 'Webcam validation', count: '', unit: '', type: 'switch', tooltip: false },
+    { icon: timeSlice, name: 'Time expected', count: 30, unit: 'min', type: 'count', tooltip: false },
+    { icon: retry, name: 'Attempts', count: '3', unit: '', type: 'count', tooltip: false },
+    { icon: dice, name: 'Random questions', count: 10, unit: '', type: 'count', tooltip: false },
+    { icon: clock, name: 'Time per question', count: 45, unit: 's', type: 'count', tooltip: true },
+    { icon: checked, name: 'Passing score', count: 80, unit: '%', type: 'count', tooltip: false },
+  ])
+
+  const decrementCount = (index) => {
+    if (controllers[index].count == 0) return;
+    const updated = controllers.slice();
+    updated[index] = {
+      ...updated[index],
+      count: parseInt(updated[index].count) - 1
+    }
+    setControllers(updated)
+  }
+  const incrementCount = (index) => {
+    if (controllers[index].count == 0) return;
+    const updated = controllers.slice();
+    updated[index] = {
+      ...updated[index],
+      count: parseInt(updated[index].count) + 1
+    }
+    setControllers(updated)
+  }
 
   const addQuestion = () => {
     setQuestions([...questions, { id: questions.length + 1 }])
@@ -47,7 +65,6 @@ function App() {
   const deleteQuestion = (id) => {
     setQuestions(questions.filter((question) => question.id !== id));
   }
-
 
   useEffect(() => {
     const container = containerRef.current;
@@ -68,7 +85,7 @@ function App() {
       <div className="container max-w-7xl m-auto w-full px-5 xl:px-0">
         {/* Header */}
         <div className='flex justify-between items-center capitalize flex-col gap-3 sm:flex-row mb-3 text-start'>
-          <span className='text-gray-700 font-medium w-full text-start'>edit training "working at height"</span>
+          <span className='text-gray-700 w-full text-start font-[500]'>edit training "working at height"</span>
           <div className='flex justify-end items-center gap-5 w-full'>
             <button className='text-gray-400 capitalize p-0'>cancel</button>
             <button className='bg-orange-500 capitalize text-white px-10'>update & save</button>
@@ -82,12 +99,12 @@ function App() {
             <Form />
           </div>
           <div className='shadow lg:w-[30%] rounded-md bg-white p-3 flex flex-col justify-between items-start gap-2'>
-            <span className='text-sm text-gray-800'>Image</span>
+            <span className='text-sm text-gray-800 font-[600]'>Image</span>
             <Image acceptedFileTypes={acceptedFileTypes} />
             <span className='text-xs text-gray-300'>*Only JPG, PNG files are allowed. Image must be less than 2 MB</span>
           </div>
           <div className='shadow lg:w-[20%] rounded-md bg-white p-3 flex flex-col justify-between items-start gap-2 overflow-hidden'>
-            <span className='text-sm text-gray-800'>Training file</span>
+            <span className='text-sm text-gray-800 font-[600]'>Training file</span>
             <File />
             <span className='text-xs text-gray-300'>*Only Video, PDF and SlideShow files are allowed.</span>
             <div className="flex items-center justify-center w-full">
@@ -95,7 +112,7 @@ function App() {
               <div className="px-2 text-gray-500 text-xs font-bold">OR</div>
               <hr className="border-gray-350 flex-grow border-t" />
             </div>
-            <span className='text-sm text-gray-800'>Media URL</span>
+            <span className='text-sm text-gray-800 font-[600]'>Media URL</span>
             <input type="text" placeholder='https://youtu.be/1g4hoZx8-o4' className='border text-xs outline-none rounded p-2 w-full' />
           </div>
         </div>
@@ -103,21 +120,21 @@ function App() {
 
         {/* Training quiz */}
         <div className='shadow mb-5 bg-white p-3 text-start rounded-md'>
-          <h2 className='text-sm text-gray-800'>Training quiz</h2>
+          <h2 className='text-sm text-gray-800 font-[600]'>Training quiz</h2>
           <p className='text-xs text-gray-450'>Here you can manage the questions by clicking on the “Add Question” button and choose from the available types of question. You can add up to 100 questions.</p>
           <hr className='my-2' />
           {(questions && questions.length > 0) && questions.map((question, idx) => <div className='bg-gray-425 rounded-md p-3 mb-2 border flex flex-col sm:flex-row gap-10 items-start' key={idx}>
             <div className='w-full sm:w-[70%]'>
               <div className='flex justify-between'>
-                <h2 className='text-sm text-black mb-2 font-semibold'>Question {question.id}</h2>
+                <h2 className='text-sm text-gray-900 mb-2 font-[700]'>Question {question.id}</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 text-gray-650 cursor-pointer" onClick={() => deleteQuestion(question.id)}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
-              <div className='bg-white border rounded p-3 text-xs mb-2'>
+              <div className='bg-white text-gray-800 font-[600] border rounded p-3 text-xs mb-2'>
                 Dust-filter respirators may be used for continuous protection while silica sand is used as the blasting abrasive.
               </div>
-              <div className='bg-white border rounded p-2 flex justify-between items-center text-xs mb-2'>
+              <div className='bg-white text-gray-800 font-[600] border rounded p-2 flex justify-between items-center text-xs mb-2'>
                 False
                 <div className='flex flex-row items-center gap-2'>
                   <div className='rounded-sm bg-green-200 text-green-300 p-1 text-xs'>
@@ -130,7 +147,7 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className='bg-white border rounded p-2 flex justify-between items-center text-xs mb-2'>
+              <div className='bg-white text-gray-800 font-[600] border rounded p-2 flex justify-between items-center text-xs mb-2'>
                 True
                 <div className='flex flex-row items-center gap-2'>
                   <div className='rounded-sm bg-green-600 text-white p-1 text-xs'>
@@ -162,7 +179,7 @@ function App() {
             <div className='flex flex-row items-stretch gap-3 w-full'>
               {controllers.map((controller, idx) => (
                 <div key={idx} className="flex-shrink-0 w-48">
-                  <Controller {...controller} />
+                  <Controller {...controller} minus={() => decrementCount(idx)} add={() => incrementCount(idx)} />
                 </div>
               ))}
             </div>

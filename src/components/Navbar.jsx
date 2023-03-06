@@ -11,10 +11,10 @@ import logout from '../assets/logout.svg'
 import avatar from '../assets/avatar.svg'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: false, children: false },
-  { name: 'Trainings', href: '#', current: true, children: false, },
-  { name: 'Users', href: '#', current: false, children: false, },
-  { name: 'More', href: '#', current: false, children: true },
+  { name: 'Dashboard', href: 'dashboard', current: false, children: false },
+  { name: 'Trainings', href: 'trainings', current: true, children: false, },
+  { name: 'Users', href: 'users', current: false, children: false, },
+  { name: 'More', href: 'more', current: false, children: true },
 ]
 
 const profileNavigation = [
@@ -81,9 +81,9 @@ const Navbar = () => {
                       <input type="search" placeholder='Quick search...' className='outline-none bg-transparent w-full' />
                     </div>
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current ? 'text-blue-500' : 'text-gray-700',
                           'rounded-md xl:px-3 py-2 text-sm font-[600] flex flex-row xl:gap-2 items-center'
@@ -94,7 +94,7 @@ const Navbar = () => {
                         {item.children && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 font-medium">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                         </svg>}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
