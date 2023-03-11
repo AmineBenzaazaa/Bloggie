@@ -15,7 +15,7 @@ To run this project, you need to have the following software installed:
 
 ### Installation
 
-1. Clone this repository to your local machine using the command below: git clone https://github.com/Simo-CE/Immense-Assignement.git
+1. Clone this repository to your local machine using the command below: git clone https://github.com/Simo-CE/newsfeed
 2. Change into the project directory: cd react-assignment
 3. Install the project dependencies: npm install
 4. Start the development server: npm run dev
