@@ -1,6 +1,6 @@
-# Im'ense Assignement
+# News APi
 
-ReactJS Front-end Developer Assignment
+Latest news from various sources
 
 ## Getting Started
 
@@ -26,10 +26,6 @@ To run this project, you need to have the following software installed:
 * [React](https://reactjs.org/) - The web framework used
 * [Tailwind CSS](https://tailwindcss.com/) - The CSS framework used
 * [Vite](https://vitejs.dev/) - The build tool used
-
-## Authors
-
-* **[AIT OUAHAMNE MOHAMED](https://github.com/Simo-CE)** - *https://simo-ce.github.io/Portfolio*
 
 ## License
 
