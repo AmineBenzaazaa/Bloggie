@@ -2,6 +2,8 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { getNewsApi } from './stores/newsapi';
 import { useDispatch, useSelector } from 'react-redux';
+import { getGuardianNews } from './stores/guardian';
+import { getNytNews } from './stores/nytimes';
 import { Route, Routes } from "react-router-dom"
 
 import Header from './components/Header'
@@ -9,6 +11,7 @@ import Home from './pages/Home'
 import SignUp from './pages/sign-Up'
 import SignIn from './pages/sign-In'
 import NotFound from './pages/notFound'
+import Search from './pages/search'
 
 
 function App() {
@@ -16,6 +19,8 @@ function App() {
   const store = useSelector(state => state.newsApi);
   useEffect(() => {
     dispatch(getNewsApi())
+    dispatch(getGuardianNews())
+    dispatch(getNytNews())
   }, [dispatch])
 
   return (
@@ -26,6 +31,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
+        <Route path='/search' element={<Search />} />
       </Routes>
     </>
   )

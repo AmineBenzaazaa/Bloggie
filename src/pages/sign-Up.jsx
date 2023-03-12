@@ -153,7 +153,7 @@ const Sign = () => {
                                 </div>
 
                                 <div className="text-center">
-                                    <p className="text-base text-gray-600">Already have an account? <a href="/sign-" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Login here</a></p>
+                                    <p className="text-base text-gray-600">Already have an account? <a href="/sign-in" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Login here</a></p>
                                 </div>
                             </div>
                         </form>
