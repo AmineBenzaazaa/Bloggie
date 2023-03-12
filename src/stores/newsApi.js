@@ -6,7 +6,6 @@ const API_URL = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KE
 
 export const getNewsApi = createAsyncThunk('newsApi/getNews', async () => {
     const res = await axios.get(API_URL);
-    console.log('news api', res);
     return res.data;
 })
 

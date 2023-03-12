@@ -1,8 +1,7 @@
 import auth from './auth';
 import newsApi from '../stores/newsApi';
-// import newsCred from '../stores/newsCred';
-// import openNews from '../stores/openNews';
+import guardian from '../stores/guardian';
 
-const rootReducer = { auth, newsApi, /* newsCred, openNews */ }
+const rootReducer = { auth, newsApi, guardian }
 
 export default rootReducer
