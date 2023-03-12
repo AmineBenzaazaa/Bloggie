@@ -9,6 +9,12 @@ export const getGuardianNews = createAsyncThunk('guardian/getNews', async () => 
     return res.data;
 })
 
+export const searchGuardian = createAsyncThunk('guardian/searchNews', async (params) => {
+    console.log('params', params)
+    const res = await axios.get(API_URL);
+    return res.data;
+})
+
 export const guardianSlice = createSlice({
     name: "guardianNews",
     initialState: {

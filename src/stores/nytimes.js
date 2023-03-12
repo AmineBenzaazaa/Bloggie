@@ -6,12 +6,17 @@ const API_URL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=&api
 
 export const getNytNews = createAsyncThunk('nyTimes/getNews', async () => {
     const res = await axios.get(API_URL);
-    console.log('nyt api', res.data);
+    return res.data;
+})
+
+export const searchNyTimes = createAsyncThunk('nyTimes/searchNews', async (param) => {
+    console.log('param', param)
+    const res = await axios.get(API_KEY);
     return res.data;
 })
 
 export const nytApislice = createSlice({
-    name: "newsApi",
+    name: "nyTimes",
     initialState: {
         data: [],
     },
