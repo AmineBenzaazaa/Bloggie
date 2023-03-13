@@ -7,7 +7,6 @@ const signIn = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-<<<<<<< HEAD
             const data = { email: username, password }
             console.log('data', data);
             const response = await fetch('http://127.0.0.1:8000/api/login', {
@@ -26,22 +25,6 @@ const signIn = () => {
                 const errorData = await response.json();
                 console.error(errorData.message);
             }
-=======
-          const response = await fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-          });
-          console.log('response', response);
-          if (response.status === 200) {
-            // Login successful, redirect to dashboard
-            // window.location.href = '/';
-          } else {
-            // Login failed, display error message
-            const errorData = await response.json();
-            console.error(errorData.message);
-          }
->>>>>>> be270ac3c68a0409f1db9117a67225ae86f9a6f4
         } catch (error) {
             console.error(error);
         }
@@ -71,15 +54,9 @@ const signIn = () => {
 
                                             <input
                                                 type="email"
-<<<<<<< HEAD
                                                 name="email"
                                                 value={username}
                                                 onChange={(e) => setUsername(e.target.value)}
-=======
-                                                name="email" 
-                                                value={email} 
-                                                onChange={(e) => setEmail(e.target.value)}
->>>>>>> be270ac3c68a0409f1db9117a67225ae86f9a6f4
                                                 placeholder="Enter email to get started"
                                                 className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
                                             />
