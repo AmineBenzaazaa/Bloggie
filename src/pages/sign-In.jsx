@@ -1,7 +1,7 @@
 import React,{useState } from 'react'
 
 const signIn = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = async (event) => {
@@ -10,7 +10,7 @@ const signIn = () => {
           const response = await fetch('http://localhost:8000/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email, password }),
           });
           console.log('response', response);
           if (response.status === 200) {
@@ -51,8 +51,8 @@ const signIn = () => {
                                             <input
                                                 type="email"
                                                 name="email" 
-                                                value={username} 
-                                                onChange={(e) => setUsername(e.target.value)}
+                                                value={email} 
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 placeholder="Enter email to get started"
                                                 className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
                                             />
