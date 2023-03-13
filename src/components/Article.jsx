@@ -1,5 +1,7 @@
 import React from 'react'
+import {useParams} from 'react-router-dom';
 
+<<<<<<< HEAD
 const Article = ({ image, title, description, author, authorSrc }) => {
     function trimString(str, maxLength = 20) {
         if (str.length > maxLength) {
@@ -10,6 +12,10 @@ const Article = ({ image, title, description, author, authorSrc }) => {
     const _title = trimString(title);
     const _author = trimString(author);
     const _description = trimString(description, 100);
+=======
+const Article = () => {
+    const { id } = useParams();
+>>>>>>> be270ac3c68a0409f1db9117a67225ae86f9a6f4
 
     return (
         <div className="group cursor-pointer overflow-hidden rounded-lg border">
