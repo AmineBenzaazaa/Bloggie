@@ -17,6 +17,7 @@ import SignIn from './pages/sign-In'
 import NotFound from './pages/notFound'
 import Search from './pages/search'
 import NewsAPI from './pages/newsAPI';
+import Guardian from './pages/Guardian'
 
 
 function App() {
@@ -37,9 +38,9 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/NewsAPI" element={<NewsAPI/>}/>
+        <Route path="/TheGuardian" element={<Guardian/>}/>
         <Route path="/OpenNews" element={<NewsAPI/>}/>
         <Route path="/NewsCred" element={<NewsAPI/>}/>
-        <Route path="/TheGuardian" element={<NewsAPI/>}/>
         <Route path="/NewYorkTimes" element={<NewsAPI/>}/>
         <Route path="/BBCNews" element={<NewsAPI/>}/>
         <Route path='/search' element={<Search />} />

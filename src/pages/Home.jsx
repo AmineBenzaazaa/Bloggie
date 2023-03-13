@@ -20,23 +20,32 @@ const home = () => {
   
 
   const shortenDescription = (description) => {
+    if (!description) {
+      return '';
+    }
+    
     const words = description.split(' ');
     if (words.length > 30) {
       return words.slice(0, 30).join(' ') + '...';
     }
     return description;
   };
-
+  
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="">
+      <Filter />
       {/* <Head>
         <title>Medium</title>
         <link rel="icon" href="/favicon.ico" />
       </Head> */}
 
       
-      <Filter />
       <div className="mx-auto max-w-7xl py-4">
+      <div class="title ">
+          <p class="mb-4 text-4xl font-bold text-black">
+              Lastest articles
+          </p>
+      </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
         {newsApiData&& newsApiData.length>0 && newsApiData.map((article) => (
           <Link key={article.title} className="group cursor-pointer overflow-hidden rounded-lg border" to={`/article/${article.id}`}>

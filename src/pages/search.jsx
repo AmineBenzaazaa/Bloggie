@@ -24,6 +24,7 @@ const search = () => {
             rootMargin: "0px",
             threshold: 1
         }
+        console.log('guardian',guardian);
         const observer = new IntersectionObserver(handleObserver, options);
         if (loader.current) observer.observe(loader.current);
     }, []);
