@@ -1,4 +1,4 @@
-import React,{useState } from 'react'
+import { useState } from 'react'
 
 const signIn = () => {
     const [username, setUsername] = useState('');
@@ -7,25 +7,29 @@ const signIn = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-          const response = await fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
-          });
-          console.log('response', response);
-          if (response.status === 200) {
-            // Login successful, redirect to dashboard
-            // window.location.href = '/';
-          } else {
-            // Login failed, display error message
-            const errorData = await response.json();
-            console.error(errorData.message);
-          }
+            const data = { email: username, password }
+            console.log('data', data);
+            const response = await fetch('http://127.0.0.1:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data),
+            }).then(res => res.json());
+            if (response.status === 200) {
+                // Login successful, redirect to dashboard
+                // window.location.href = '/';
+            } else {
+                // Login failed, display error message
+                const errorData = await response.json();
+                console.error(errorData.message);
+            }
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-    
+    };
+
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -50,8 +54,8 @@ const signIn = () => {
 
                                             <input
                                                 type="email"
-                                                name="email" 
-                                                value={username} 
+                                                name="email"
+                                                value={username}
                                                 onChange={(e) => setUsername(e.target.value)}
                                                 placeholder="Enter email to get started"
                                                 className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
@@ -80,8 +84,8 @@ const signIn = () => {
                                             <input
                                                 type="password"
                                                 name="password"
-                                                value={password} 
-                                                onChange={(e) => setPassword(e.target.value)} 
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
                                                 placeholder="Enter your password"
                                                 className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
                                             />

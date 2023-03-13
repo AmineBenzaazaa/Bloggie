@@ -10,9 +10,9 @@ export const getGuardianNews = createAsyncThunk('guardian/getNews', async () => 
 })
 
 export const searchGuardian = createAsyncThunk('guardian/searchNews', async (params) => {
-    console.log('params', params)
     const res = await axios.get(API_URL);
-    return res.data;
+    if(res && res.status === 200)
+    return res.data.response?.results;
 })
 
 export const guardianSlice = createSlice({
@@ -22,9 +22,13 @@ export const guardianSlice = createSlice({
     },
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getGuardianNews.fulfilled, (state, action) => {
-            state.data = action.payload;
-        })
+        builder
+            .addCase(getGuardianNews.fulfilled, (state, action) => {
+                state.data = action.payload;
+            })
+            .addCase(searchGuardian.fulfilled, (state, action) => {
+                state.data = action.payload;
+            })
     }
 })
 

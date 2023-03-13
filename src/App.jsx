@@ -17,11 +17,11 @@ import Search from './pages/search'
 function App() {
   const dispatch = useDispatch();
   const store = useSelector(state => state.newsApi);
-  useEffect(() => {
-    dispatch(getNewsApi())
-    dispatch(getGuardianNews())
-    dispatch(getNytNews())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getNewsApi())
+  //   dispatch(getGuardianNews())
+  //   dispatch(getNytNews())
+  // }, [dispatch])
 
   return (
     <>
