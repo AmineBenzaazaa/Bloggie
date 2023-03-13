@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewsApi } from '../stores/newsApi'
+import {useParams} from 'react-router-dom';
+import { Route, Routes,Link } from "react-router-dom"
 import Banner from '../components/Banner'
 import Filter from '../pages/filter'
 
 
+
 const home = () => {
+  const params = useParams();
   const dispatch = useDispatch();
   const newsApiData = useSelector((state) => state.newsApi.data.articles);
   useEffect(() => {
     dispatch(getNewsApi());
   }, [dispatch]);
+  console.log(params);
+  console.log(newsApiData);
+  
 
   const shortenDescription = (description) => {
     const words = description.split(' ');
@@ -30,11 +37,11 @@ const home = () => {
       
       <Filter />
       <div className="mx-auto max-w-7xl py-4">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
         {newsApiData&& newsApiData.length>0 && newsApiData.map((article) => (
-          <div key={article.title} className="bg-white rounded-lg overflow-hidden shadow-md">
+          <Link key={article.title} className="group cursor-pointer overflow-hidden rounded-lg border" to={`/article/${article.id}`}>
             <img
-              className="h-56 w-full object-cover"
+              className="h-60 w-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
               src={article.urlToImage}
               alt="Article Image"
             />
@@ -45,7 +52,7 @@ const home = () => {
                 By <span className="text-xs text-blue-600 italic"> {article.author ? article.author : 'Unknown'}</span>  from <span className="text-xs text-blue-600 italic"> {article.source.name} </span> 
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

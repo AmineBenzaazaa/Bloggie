@@ -1,6 +1,9 @@
 import React from 'react'
+import {useParams} from 'react-router-dom';
 
 const Article = () => {
+    const { id } = useParams();
+
     return (
         <div className="group cursor-pointer overflow-hidden rounded-lg border">
             <img

@@ -60,64 +60,71 @@ const Filter = () => {
   // ));
 
   return (
-    <div className="flex flex-col bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-lg font-medium mb-4">Filter Articles</h2>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="flex justify-center">
+      <div class="flex-1 p-4">
         <div>
-          <label htmlFor="sourceFilter" className="block font-medium mb-1">
-            Source
-          </label>
-          <select
-            id="sourceFilter"
-            name="sourceFilter"
-            className="form-select w-full"
-            value={sourceFilter}
-            onChange={handleSourceFilterChange}
-          >
-            {sourceOptions}
-          </select>
+            <label htmlFor="sourceFilter" className="block font-medium mb-1">
+              Source
+            </label>
+            <select
+              id="sourceFilter"
+              name="sourceFilter"
+              className="form-select w-full"
+              value={sourceFilter}
+              onChange={handleSourceFilterChange}
+            >
+              {sourceOptions}
+            </select>
+          </div>
+      </div>
+      {/* <div class="flex-1 p-4">
+          <div className="col-span-2">
+              <label htmlFor="searchFilter"className="block font-medium mb-1">Search</label>
+              <div className="relative">
+              <input
+              id="searchFilter"
+              name="searchFilter"
+              type="text"
+              placeholder="Search articles"
+              className="form-input w-full pr-10"
+              value={searchFilter}
+              onChange={handleSearchFilterChange}
+            />
+            <button
+              type="submit"
+              className=" inset-y-0 right-0 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
+              //  onClick={handleSearch}
+            >
+            Search
+            </button>
+          </div>
         </div>
-        {/* <div>
-          <label htmlFor="categoryFilter" className="block font-medium mb-1">
-            Category
-          </label>
-          <select
-            id="categoryFilter"
-            name="categoryFilter"
-            className="form-select w-full"
-            value={categoryFilter}
-            onChange={handleCategoryFilterChange}
-          >
-            {categoryOptions}
-          </select>
-        </div> */}
-        {/* <div className="col-span-2">
-          <label className="block font-medium mb-1">Authors</label>
-          <div className="space-y-2">{authorCheckboxes}</div>
-        </div> */}
+      </div>
+      <div class="flex-1 p-4">
         <div className="col-span-2">
-          <label htmlFor="searchFilter"className="block font-medium mb-1">Search</label>
-<div className="relative">
-<input
-           id="searchFilter"
-           name="searchFilter"
-           type="text"
-           placeholder="Search articles"
-           className="form-input w-full pr-10"
-           value={searchFilter}
-           onChange={handleSearchFilterChange}
-         />
-        <button
-                  type="submit"
-                  className=" inset-y-0 right-0 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
-                  //  onClick={handleSearch}
-                >
-        Search
-        </button>
-</div>
-</div>
-</div>
-</div>
+            <label htmlFor="searchFilter"className="block font-medium mb-1">Search</label>
+            <div className="relative">
+            <input
+            id="searchFilter"
+            name="searchFilter"
+            type="text"
+            placeholder="Search articles"
+            className="form-input w-full pr-10"
+            value={searchFilter}
+            onChange={handleSearchFilterChange}
+          />
+          <button
+            type="submit"
+            className=" inset-y-0 right-0 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-md"
+            //  onClick={handleSearch}
+          >
+          Search
+          </button>
+        </div>
+      </div>
+      </div> */}
+    </div>
+
   )
 }
 export default Filter
