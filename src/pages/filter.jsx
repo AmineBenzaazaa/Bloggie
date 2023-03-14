@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Select from "../components/Select";
 import { selectNewsApi } from "../stores/newsApi"
 const Filter = () => {
   const { sources, categories, authors } = useSelector(selectNewsApi);
@@ -36,6 +37,13 @@ const Filter = () => {
       {source.name}
     </option>
   )) : null;
+
+  const _sources = [
+     { name: 'News Api'},
+     { name: 'The Guardian' },
+     { name: 'New York Times' }
+    ]
+  
   
 
   // const categoryOptions = [{ label: "All", value: "all" }, ...categories].map(
@@ -60,10 +68,10 @@ const Filter = () => {
   // ));
 
   return (
-    <div className="flex justify-center">
-      <div className="w-full md:w-3/4 p-2 rounded-lg">
-        <div className="flex items-center justify-between my-2">
-          <p className="font-medium">
+    <div class="flex justify-center">
+      <div class="w-full md:w-3/4 p-2 rounded-lg">
+        <div class="flex items-center justify-between my-2">
+          <p class="mb-4 text-4xl font-bold text-black">
           Filters
           </p>
         </div>
@@ -82,21 +90,21 @@ const Filter = () => {
 
 
         <div>
-          <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-2   gap-4 mt-4">
-          <select className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
-            <option value="">Categories</option>
-            <option value="for-rent">For Rent</option>
-            <option value="for-sale">For Sale</option>
-          </select>
+          <div class="flex flex-col md:flex-row  gap-4 mt-4">
+            <Select options={_sources} />
 
-          <select className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
-            <option value="">Authors</option>
-            <option value="fully-furnished">Fully Furnished</option>
-            <option value="partially-furnished">Partially Furnished</option>
-            <option value="not-furnished">Not Furnished</option>
-          </select>
-          
-          
+            <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+              <option value="">Categories</option>
+              <option value="for-rent">For Rent</option>
+              <option value="for-sale">For Sale</option>
+            </select>
+
+            <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+              <option value="">Authors</option>
+              <option value="fully-furnished">Fully Furnished</option>
+              <option value="partially-furnished">Partially Furnished</option>
+              <option value="not-furnished">Not Furnished</option>
+            </select>
           </div>
 
         </div>

@@ -4,7 +4,6 @@ import './App.css';
 
 // ** components
 import Header from './components/Header'
-import Article from './components/Article'
 
 // ** Pages
 import Home from './pages/Home'
@@ -15,6 +14,7 @@ import Search from './pages/search'
 import NewsAPI from './pages/newsAPI';
 import Guardian from './pages/Guardian'
 import NewYorkTimes from './pages/nyTimes'
+import Article from './pages/Article'
 
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
         <Route path="/NewsCred" element={<NewsAPI/>}/>
         <Route path="/BBCNews" element={<NewsAPI/>}/>
         <Route path='/search' element={<Search />} />
-        <Route path="/article/:Id" element={<Article />} />
+        <Route path="/article/:id" element={<Article />} />
       </Routes>
     </>
   )

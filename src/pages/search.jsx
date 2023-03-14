@@ -6,6 +6,9 @@ import { searchNewsApi } from '../stores/newsApi';
 import { searchNyTimes } from '../stores/nytimes';
 import { searchGuardian } from '../stores/guardian';
 
+import noImg from '../assets/no_image.png'
+import Filter from './filter';
+
 const search = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -16,9 +19,24 @@ const search = () => {
     const [loading, setLoading] = useState(false);
     const articleListRef = useRef(null);
 
+    const shortenDescription = (description) => {
+        const words = description.split(' ');
+        if (words.length > 30) {
+            return words.slice(0, 30).join(' ') + '...';
+        }
+        return description;
+    };
+    const getArticleImage = (article) => {
+        const multimedia = article.multimedia || [];
+        const image = multimedia.find((item) => item.type === 'image');
+        if (image) {
+          return `https://www.nytimes.com/${image.url}`;
+        }
+        return null;
+    };
     useEffect(() => {
         console.log('page', page)
-        Promise.all([dispatch(searchNyTimes({ param: q, page })), dispatch(searchGuardian({ param: q, page })), dispatch(searchNewsApi({ param: q, page }))])
+        Promise.all([dispatch(searchNyTimes({ param: q, page })), dispatch(searchGuardian(q)), dispatch(searchNewsApi(q, page))])
             .then(responses => {
                 console.log(responses, responses[0], responses[1])
                 const data = [];
@@ -29,9 +47,9 @@ const search = () => {
                                 data.push({
                                     id: article._id,
                                     title: article.abstract,
-                                    description: article.lead_paragraph,
-                                    author: '', // author image
-                                    image: '',
+                                    description: shortenDescription(article.lead_paragraph),
+                                    author: article.byline.original ? article.byline.original : 'Unknown', // author image
+                                    image: getArticleImage(article) ? getArticleImage(article) : noImg,
                                     link: article.web_url,
                                 })
                             }
@@ -39,9 +57,19 @@ const search = () => {
                                 data.push({
                                     id: article.id,
                                     title: article.webTitle,
-                                    description: '',
-                                    author: '', // author image
-                                    image: '',
+                                    description: shortenDescription(article.webTitle),
+                                    author: article.sectionName ? article.sectionName : 'Unknown', // author image
+                                    image: article.urlToImage ? article.urlToImage : noImg,
+                                    link: article.webUrl,
+                                })
+                            }
+                            if (response.type.startsWith('newsapi')) {
+                                data.push({
+                                    id: article.id,
+                                    title: article.webTitle,
+                                    description: shortenDescription(article.description),
+                                    author: article.author ? article.author : 'Unknown', // author image
+                                    image: article.urlToImage ? article.urlToImage : noImg,
                                     link: article.webUrl,
                                 })
                             }

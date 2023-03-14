@@ -8,6 +8,7 @@ const initialState = () => {
 
 export const authenticate = createAsyncThunk('auth/login', async (data) => {
     const res = await axios.post('http://localhost:8000/api/login', data);
+    console.log('res: ',res);
     if (res && res.status === 200) {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
