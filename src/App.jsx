@@ -1,9 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getGuardianNews } from './stores/guardian';
-import { getNytNews } from './stores/nytimes';
-import { Route, Routes } from "react-router-dom"
-import { getNewsApi } from './stores/newsapi';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import './App.css';
 
 // ** components
@@ -22,13 +18,13 @@ import Article from './pages/Article'
 
 
 function App() {
-  const dispatch = useDispatch();
-  const store = useSelector(state => state.newsApi);
-  // useEffect(() => {
-  //   dispatch(getNewsApi())
-  //   dispatch(getGuardianNews())
-  //   dispatch(getNytNews())
-  // }, [dispatch])
+  const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    if (!localStorage.getItem('token') && location.pathname !== '/sign-up' && location.pathname !== '/') {
+      navigate('/sign-in');
+    }
+  }, [localStorage.getItem('token'), location.pathname])
 
   return (
     <>
@@ -52,4 +48,3 @@ function App() {
 }
 
 export default App
- 

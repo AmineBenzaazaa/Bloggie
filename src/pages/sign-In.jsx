@@ -1,33 +1,23 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { authenticate } from '../redux/auth';
+import { Link } from 'react-router-dom';
 
 const signIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [error, setError] = useState('')
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const data = { email: username, password }
-            console.log('data', data);
-            const response = await fetch('http://127.0.0.1:8000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data),
-            }).then(res => res.json());
-            if (response.status === 200) {
-                // Login successful, redirect to dashboard
-                // window.location.href = '/';
-            } else {
-                // Login failed, display error message
-                const errorData = await response.json();
-                console.error(errorData.message);
-            }
-        } catch (error) {
-            console.error(error);
-        }
+        dispatch(authenticate({ email, password })).then(res => {
+            if (res && res.payload && Object.keys(res.payload).length > 0) {
+                navigate('/')
+            } else setError('Something went wrong, please try again later!')
+        })
     };
 
     return (
@@ -55,8 +45,8 @@ const signIn = () => {
                                             <input
                                                 type="email"
                                                 name="email"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 placeholder="Enter email to get started"
                                                 className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
                                             />
@@ -67,7 +57,7 @@ const signIn = () => {
                                         <div className="flex items-center justify-between">
                                             <label htmlFor="" className="text-base font-medium text-gray-900"> Password </label>
 
-                                            <a href="#" title="" className="text-sm font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 focus:text-orange-600 hover:underline"> Forgot password? </a>
+                                            {/* <a href="#" title="" className="text-sm font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 focus:text-orange-600 hover:underline"> Forgot password? </a> */}
                                         </div>
                                         <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
                                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -99,7 +89,10 @@ const signIn = () => {
                                     </div>
 
                                     <div className="text-center">
-                                        <p className="text-base text-gray-600">Don’t have an account? <a href="/sign-up" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Create a free account</a></p>
+                                        <p className="text-base text-gray-600">Don’t have an account? <Link to="/sign-up" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Create a free account</Link></p>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-base text-gray-600">{error}</p>
                                     </div>
                                 </div>
                             </form>
