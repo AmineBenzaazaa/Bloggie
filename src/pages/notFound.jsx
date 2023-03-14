@@ -4,12 +4,12 @@ const notFound = () => {
   return (
     <div>
 
-        <div class="grid h-screen px-4 bg-white place-content-center">
-        <div class="text-center">
+        <div className="grid h-screen px-4 bg-white place-content-center">
+        <div className="text-center">
             <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1024 768"
-            class="w-auto h-56 mx-auto text-black sm:h-64"
+            className="w-auto h-56 mx-auto text-black sm:h-64"
             >
             <g fill="none" fillRule="evenodd">
                 <g fill="#FF5678">

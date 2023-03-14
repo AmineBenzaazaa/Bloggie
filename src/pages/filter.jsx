@@ -60,8 +60,8 @@ const Filter = () => {
   // ));
 
   return (
-    <div class="flex justify-center">
-      <div class="flex-1 p-4">
+    <div className="flex justify-center">
+      <div className="flex-1 p-4">
         <div>
             <label htmlFor="sourceFilter" className="block font-medium mb-1">
               Source
@@ -77,7 +77,7 @@ const Filter = () => {
             </select>
           </div>
       </div>
-      {/* <div class="flex-1 p-4">
+      {/* <div className="flex-1 p-4">
           <div className="col-span-2">
               <label htmlFor="searchFilter"className="block font-medium mb-1">Search</label>
               <div className="relative">
@@ -100,7 +100,7 @@ const Filter = () => {
           </div>
         </div>
       </div>
-      <div class="flex-1 p-4">
+      <div className="flex-1 p-4">
         <div className="col-span-2">
             <label htmlFor="searchFilter"className="block font-medium mb-1">Search</label>
             <div className="relative">

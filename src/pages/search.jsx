@@ -26,24 +26,18 @@ const search = () => {
         }
         const observer = new IntersectionObserver(handleObserver, options);
         if (loader.current) observer.observe(loader.current);
-    }, []);
-
-    // const handleObserver = (entities, observer) => {
-    //     const target = entities[0];
-    //     console.log("page in intersection", target.isIntresecting)
-    //     if (target.isIntresecting) {
-    //         setPage(page + 1)
-    //         observer.unobserve(target)
-    //     }
-    // }
+    }, [loader]);
 
     const handleObserver = (entities, observer) => {
-        const target = entities[0];
-        console.log("page in intersection", target.isIntersecting)
+        // const target = entities[0];
+        console.log(entities);
+        const target = entities && entities.length > 0 ? entities[0] : null;
+        console.log("page is intersection", target.isIntersecting)
         if (target.isIntersecting) {
             setPage(page + 1);
-            observer.unobserve(target);
+            // observer.unobserve(target);
         }
+        console.log('page', page)
     };
 
     useEffect(() => {

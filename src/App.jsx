@@ -1,9 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getGuardianNews } from './stores/guardian';
-import { getNytNews } from './stores/nytimes';
-import { Route, Routes } from "react-router-dom"
-import { getNewsApi } from './stores/newsapi';
+import { useEffect } from 'react';
+import { Route, Routes, useNavigate } from "react-router-dom"
 import './App.css';
 
 // ** components
@@ -20,13 +16,12 @@ import NewsAPI from './pages/newsAPI';
 
 
 function App() {
-  const dispatch = useDispatch();
-  const store = useSelector(state => state.newsApi);
-  // useEffect(() => {
-  //   dispatch(getNewsApi())
-  //   dispatch(getGuardianNews())
-  //   dispatch(getNytNews())
-  // }, [dispatch])
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/sign-in');
+    }
+  }, [localStorage.getItem('token')])
 
   return (
     <>
@@ -36,12 +31,12 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/NewsAPI" element={<NewsAPI/>}/>
-        <Route path="/OpenNews" element={<NewsAPI/>}/>
-        <Route path="/NewsCred" element={<NewsAPI/>}/>
-        <Route path="/TheGuardian" element={<NewsAPI/>}/>
-        <Route path="/NewYorkTimes" element={<NewsAPI/>}/>
-        <Route path="/BBCNews" element={<NewsAPI/>}/>
+        <Route path="/NewsAPI" element={<NewsAPI />} />
+        <Route path="/OpenNews" element={<NewsAPI />} />
+        <Route path="/NewsCred" element={<NewsAPI />} />
+        <Route path="/TheGuardian" element={<NewsAPI />} />
+        <Route path="/NewYorkTimes" element={<NewsAPI />} />
+        <Route path="/BBCNews" element={<NewsAPI />} />
         <Route path='/search' element={<Search />} />
         <Route path="/article/:Id" element={<Article />} />
       </Routes>
@@ -50,4 +45,3 @@ function App() {
 }
 
 export default App
- 

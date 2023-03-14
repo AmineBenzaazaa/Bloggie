@@ -1,33 +1,21 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { authenticate } from '../redux/auth';
 
 const signIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const data = { email: username, password }
-            console.log('data', data);
-            const response = await fetch('http://127.0.0.1:8000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data),
-            }).then(res => res.json());
-            if (response.status === 200) {
-                // Login successful, redirect to dashboard
-                // window.location.href = '/';
-            } else {
-                // Login failed, display error message
-                const errorData = await response.json();
-                console.error(errorData.message);
+        dispatch(authenticate({ email, password })).then(res => {
+            if (res && Object.keys(res.payload).length > 0) {
+                navigate('/')
             }
-        } catch (error) {
-            console.error(error);
-        }
+        })
     };
 
     return (
@@ -55,8 +43,8 @@ const signIn = () => {
                                             <input
                                                 type="email"
                                                 name="email"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
                                                 placeholder="Enter email to get started"
                                                 className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-blue-600 caret-blue-600"
                                             />
