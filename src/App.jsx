@@ -13,6 +13,8 @@ import SignIn from './pages/sign-In'
 import NotFound from './pages/notFound'
 import Search from './pages/search'
 import NewsAPI from './pages/newsAPI';
+import Guardian from './pages/Guardian'
+import NewYorkTimes from './pages/nyTimes'
 
 
 function App() {
@@ -32,12 +34,12 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/NewsAPI" element={<NewsAPI />} />
-        <Route path="/OpenNews" element={<NewsAPI />} />
-        <Route path="/NewsCred" element={<NewsAPI />} />
-        <Route path="/TheGuardian" element={<NewsAPI />} />
-        <Route path="/NewYorkTimes" element={<NewsAPI />} />
-        <Route path="/BBCNews" element={<NewsAPI />} />
+        <Route path="/NewsAPI" element={<NewsAPI/>}/>
+        <Route path="/TheGuardian" element={<Guardian/>}/>
+        <Route path="/NewYorkTimes" element={<NewYorkTimes/>}/>
+        <Route path="/OpenNews" element={<NewsAPI/>}/>
+        <Route path="/NewsCred" element={<NewsAPI/>}/>
+        <Route path="/BBCNews" element={<NewsAPI/>}/>
         <Route path='/search' element={<Search />} />
         <Route path="/article/:Id" element={<Article />} />
       </Routes>

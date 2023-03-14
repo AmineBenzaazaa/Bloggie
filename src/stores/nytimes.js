@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios';
 
-const API_KEY = "BP1mkKaljvlMZvA48fAJbznAvO9AecUG"
+const API_KEY = "fOXEojUtTzFeYG77KiwUTP0TbZ1YHzHp"
 const API_URL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${API_KEY}`;
 
 export const getNytNews = createAsyncThunk('nyTimes/getNews', async () => {
