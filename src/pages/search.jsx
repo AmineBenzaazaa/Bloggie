@@ -11,41 +11,16 @@ const search = () => {
     const queryParams = new URLSearchParams(location.search);
     const q = queryParams.get('q');
     const dispatch = useDispatch();
-    const newsapi = useSelector(state => state.newsApi)
-    const nytimes = useSelector(state => state.nyTimes)
-    const guardian = useSelector(state => state.guardian)
     const [articles, setArticles] = useState([]);
     const [page, setPage] = useState(1);
-    const loader = useRef(null);
+    const [loading, setLoading] = useState(false);
+    const articleListRef = useRef(null);
 
     useEffect(() => {
-        const options = {
-            root: null,
-            rootMargin: "0px",
-            threshold: 1
-        }
-        console.log('guardian',guardian);
-        const observer = new IntersectionObserver(handleObserver, options);
-        if (loader.current) observer.observe(loader.current);
-    }, [loader]);
-
-    const handleObserver = (entities, observer) => {
-        // const target = entities[0];
-        console.log(entities);
-        const target = entities && entities.length > 0 ? entities[0] : null;
-        console.log("page is intersection", target.isIntersecting)
-        if (target.isIntersecting) {
-            setPage(page + 1);
-            // observer.unobserve(target);
-        }
         console.log('page', page)
-    };
-
-    useEffect(() => {
-        console.log(page)
-        Promise.all([dispatch(searchNyTimes({ param: q, page })), dispatch(searchGuardian(q))])
+        Promise.all([dispatch(searchNyTimes({ param: q, page })), dispatch(searchGuardian({ param: q, page })), dispatch(searchNewsApi({ param: q, page }))])
             .then(responses => {
-                // console.log(responses[0], responses[1])
+                console.log(responses, responses[0], responses[1])
                 const data = [];
                 responses.forEach(response => {
                     if (response.payload) {
@@ -75,21 +50,48 @@ const search = () => {
                         throw new Error(`No payload found for ${response.type}.`);
                     }
                 });
-                setArticles(data);
+                setArticles([...articles, ...data]);
             })
             .catch(error => console.log("Error while fetching articles", error));
     }, [q, dispatch, page]);
 
+
+    const handleScroll = () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+
+        if (scrollTop + clientHeight >= scrollHeight && !loading) {
+            setPage((prevPage) => prevPage + 1);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    /* useEffect(() => {
+        if(articles.length == 0) return;
+        if (articleListRef.current) {
+            const articleList = articleListRef.current;
+            const lastArticle = articleList.lastChild;
+            // if (lastArticle) {
+            //     lastArticle.scrollIntoView({ behavior: 'smooth' });
+            // }
+        }
+    }, [articles]); */
+
     return (
-        <section className='flex flex-row justify-start max-w-7xl mx-[10%]'>
-            <section className='w-[70%] pr-10 py-10'>
-                <h1 className='font-bold text-gray-700 text-4xl mb-10'>Results for <span className='text-black'>{q}</span></h1>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
-                    {articles && articles.length > 0 && articles.map((article, index) => <Article key={index} {...article} />)}
-                </div>
-                <div ref={loader}>Loading...</div>
-            </section>
-            <section className='w-[30%] py-10 border-l'></section>
+        <section className='flex flex-col justify-start items-end max-w-7xl mx-[10%] pr-10 py-10' ref={articleListRef}>
+            <h1 className='font-bold text-gray-700 text-4xl w-full mb-10'>Results for <span className='text-black'>{q}</span></h1>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                {articles && articles.length > 0 && articles.map((article, index) => <Article key={index} {...article} />)}
+            </div>
+            {loading && <p>Loading more articles...</p>}
         </section>
     )
 }
