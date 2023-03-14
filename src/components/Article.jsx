@@ -11,7 +11,7 @@ const Article = ({ image, title, description, author, authorSrc }) => {
     const _title = trimString(title);
     const _author = trimString(author);
     const _description = trimString(description, 100);
-    const { id } = useParams();
+    
 
     return (
         <div className="group cursor-pointer overflow-hidden rounded-lg border">

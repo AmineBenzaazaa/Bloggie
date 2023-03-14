@@ -9,11 +9,11 @@ function Header() {
             </a>
             <div className="hidden md:inline-flex items-center space-x-5">
                 <h3><a className='cursor-pointer' href="/NewsAPI"> NewsAPI</a></h3>
-                <h3><a className='cursor-pointer' href="/OpenNews"> OpenNews</a></h3>
-                <h3><a className='cursor-pointer' href="/NewsCred"> NewsCred</a></h3>
+                {/* <h3><a className='cursor-pointer' href="/OpenNews"> OpenNews</a></h3> */}
+                {/* <h3><a className='cursor-pointer' href="/NewsCred"> NewsCred</a></h3> */}
                 <h3><a className='cursor-pointer' href="/TheGuardian"> The Guardian</a></h3>
                 <h3><a className='cursor-pointer' href="/NewYorkTimes"> New York Times</a></h3>
-                <h3><a className='cursor-pointer' href="/BBCNews"> BBC News</a></h3>
+                {/* <h3><a className='cursor-pointer' href="/BBCNews"> BBC News</a></h3> */}
             </div>
         </div>
         <div className="flex items-center space-x-5 text-blue-600 ">
