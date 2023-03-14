@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import './App.css';
 
 // ** components
@@ -17,11 +17,12 @@ import NewsAPI from './pages/newsAPI';
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem('token') && location.pathname !== '/sign-up' && location.pathname !== '/') {
       navigate('/sign-in');
     }
-  }, [localStorage.getItem('token')])
+  }, [localStorage.getItem('token'), location.pathname])
 
   return (
     <>

@@ -1,7 +1,11 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Menu, Transition } from '@headlessui/react'
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
 
 function Header() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,11 +14,13 @@ function Header() {
     useEffect(() => {
         if (localStorage.getItem('token')) {
             setIsAuthenticated(true)
+            setUser(store.user);
         }
-    }, [localStorage.getItem('token')])
+    }, [localStorage.getItem('token'), Object.keys(store.user).length])
     const logout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+        setIsAuthenticated(false)
     }
     return (
         <nav className="flex justify-between p-5 max-w-7xl mx-auto whitespace-nowrap">
@@ -32,16 +38,19 @@ function Header() {
                 </div>
             </div>
             {!isAuthenticated ? <div className="flex items-center space-x-5 text-blue-600 ">
-                <h3> <a href="/sign-in"> Sign In</a></h3>
-                <h3 className="border px-4 py-1 rounded-full border-blue-600 hover:bg-blue-600 hover:text-white duration-300"><a href="/sign-up"> Get Started</a></h3>
+                <h3> <Link to="/sign-in"> Sign In</Link></h3>
+                <h3 className="border px-4 py-1 rounded-full border-blue-600 hover:bg-blue-600 hover:text-white duration-300"><Link to="/sign-up"> Get Started</Link></h3>
             </div> : <Menu as="div" className="relative">
                 <div>
                     <Menu.Button className="flex flex-row gap-2 justify-center items-center rounded-full">
-                        <div className='hidden lg:block text-start'>
-                            <span className='block text-sm font-semibold text-gray-800 capitalize'>{user?.name}</span>
-                            <span className='block text-xs text-gray-400'>{user?.email}</span>
-                        </div>
+                      <span className="sr-only">Open user menu</span>
+                      <div className='w-8 h-8 bg-gray-200 rounded-full text-xs flex justify-center items-center uppercase'>{user?.name?.slice(0, 2)}</div>
+                      <div className='hidden lg:block text-start'>
+                        <span className='block text-sm font-semibold text-gray-800 capitalize'>{user?.name}</span>
+                        <span className='block text-xs text-gray-400'>{user?.email}</span>
+                      </div>
                     </Menu.Button>
+
                 </div>
                 <Transition
                     as={Fragment}

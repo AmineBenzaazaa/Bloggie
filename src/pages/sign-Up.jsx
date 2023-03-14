@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../redux/auth';
+import { Link } from 'react-router-dom';
 
 const Sign = () => {
-
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,30 +16,11 @@ const Sign = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         dispatch(register({ name, email, password, password_confirmation })).then(res => {
-            console.log('payload log', res);
-            navigate('/');
+            if (res && res.payload && Object.keys(res.payload).length > 0) navigate('/');
+            else setMessage('Something went wrong, please try again later!')
         });
-        return;
-        try {
-            const response = await fetch('http://localhost:8000/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password, password_confirmation }),
-            });
-
-            if (response.ok) {
-                // Login successful, redirect to dashboard
-                console.log(response);
-                //   window.location.href = '/';
-            } else {
-                // Login failed, display error message
-                const errorData = await response.json();
-                console.error(errorData.message);
-            }
-        } catch (error) {
-            console.error(error);
-        }
     };
+
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -53,7 +34,6 @@ const Sign = () => {
                         <div className="px-4 py-6 sm:px-8 sm:py-7">
                             <form onSubmit={handleSubmit}>
                                 <div className="space-y-5">
-                                    {message && <p>{message}</p>}
                                     <div>
                                         <label htmlFor="" className="text-base font-medium text-gray-900"> First & Last name </label>
                                         <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
@@ -163,7 +143,10 @@ const Sign = () => {
                                     </div>
 
                                     <div className="text-center">
-                                        <p className="text-base text-gray-600">Already have an account? <a href="/sign-in" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Login here</a></p>
+                                        <p className="text-base text-gray-600">Already have an account? <Link to="/sign-in" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Login here</Link></p>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-base text-red-400">{message}</p>
                                     </div>
                                 </div>
                             </form>

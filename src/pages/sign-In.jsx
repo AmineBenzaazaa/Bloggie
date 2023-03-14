@@ -2,19 +2,21 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { authenticate } from '../redux/auth';
+import { Link } from 'react-router-dom';
 
 const signIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [error, setError] = useState('')
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         dispatch(authenticate({ email, password })).then(res => {
-            if (res && Object.keys(res.payload).length > 0) {
+            if (res && res.payload && Object.keys(res.payload).length > 0) {
                 navigate('/')
-            }
+            } else setError('Something went wrong, please try again later!')
         })
     };
 
@@ -55,7 +57,7 @@ const signIn = () => {
                                         <div className="flex items-center justify-between">
                                             <label htmlFor="" className="text-base font-medium text-gray-900"> Password </label>
 
-                                            <a href="#" title="" className="text-sm font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 focus:text-orange-600 hover:underline"> Forgot password? </a>
+                                            {/* <a href="#" title="" className="text-sm font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 focus:text-orange-600 hover:underline"> Forgot password? </a> */}
                                         </div>
                                         <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
                                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -87,7 +89,10 @@ const signIn = () => {
                                     </div>
 
                                     <div className="text-center">
-                                        <p className="text-base text-gray-600">Don’t have an account? <a href="/sign-up" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Create a free account</a></p>
+                                        <p className="text-base text-gray-600">Don’t have an account? <Link to="/sign-up" title="" className="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">Create a free account</Link></p>
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-base text-gray-600">{error}</p>
                                     </div>
                                 </div>
                             </form>
