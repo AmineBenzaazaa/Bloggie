@@ -16,9 +16,6 @@ const home = () => {
   useEffect(() => {
     dispatch(getNewsApi(pageNum));
   }, [dispatch,pageNum]);
-  console.log(params);
-  console.log(newsApiData);
-  
 
   const shortenDescription = (description) => {
     if (!description) {

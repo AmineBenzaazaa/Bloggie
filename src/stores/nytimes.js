@@ -11,7 +11,7 @@ export const getNytNews = createAsyncThunk('nyTimes/getNews', async () => {
 
 export const searchNyTimes = createAsyncThunk('nyTimes/searchNews', async ({param, page = 0}) => {
     const res = await axios.get(API_URL + `&page=${page}&q=${param}`);
-    console.log(res.data.response.docs, res.data.response.meta)
+    // console.log(res.data.response.docs, res.data.response.meta)
     if(res && res.status === 200) {
         return res.data.response?.docs;
     }

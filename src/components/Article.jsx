@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 
 const Article = ({ image, title, description, author, authorSrc }) => {
     function trimString(str, maxLength = 20) {
-        if (str.length > maxLength) {
+        if (str && str.length > maxLength) {
             return str.slice(0, maxLength) + "...";
         }
         return str;
