@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-const Select = ({ options, placeholder }) => {
+const Select = ({ options, placeholder, option }) => {
     const [show, setShow] = useState(false)
     const [selected, setSelected] = useState((options && options.length > 0) ? options[0] : {})
     const selectRef = useRef(null)
@@ -21,6 +21,7 @@ const Select = ({ options, placeholder }) => {
 
     const changeOption = (idx, items) => {
         setSelected(items[idx])
+        option(items[idx]);
         setShow(false)
     }
 
@@ -36,7 +37,7 @@ const Select = ({ options, placeholder }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
             </div>
-            {show && <ul className='bg-white z-10 absolute top-100 left-0 w-full border text-start mt-1 rounded h-72 overflow-auto'>
+            {show && <ul className='bg-white z-10 absolute top-100 left-0 w-full border text-start mt-1 rounded max-h-72 overflow-auto'>
                 {(options && options.length > 0) && options.map((option, idx) => option.name && <li key={idx} className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center' onClick={() => changeOption(idx, options)}>
                     <span>{option.name}</span>
                 </li>)}

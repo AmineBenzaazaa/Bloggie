@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Select from "../components/Select";
 import categories from '../helpers/categories.json';
+import { filterNewsApi } from "../stores/newsApi";
 
 const sources = [
   { id: 0, name: 'News Api' },
@@ -10,6 +11,27 @@ const sources = [
 ]
 
 const Filter = () => {
+  const dispatch = useDispatch()
+  const [search, setSearch] = useState('');
+  const [source, setSourceOption] = useState({});
+  const [category, setCategoryOption] = useState({});
+
+  const queryBuilder = () => {
+    try {
+      if (source.id === 0) {
+        dispatch(filterNewsApi({ q: search, category }))
+      }
+      if (source.id === 1) {
+        dispatch(filterGuardian({ q: search, category }))
+      }
+      if (source.id === 2) {
+        filterNyTimes({ q: search, category })
+      }
+    } catch (err) {
+      return err;
+    }
+  }
+
   return (
     <div className="flex justify-center px-5 lg:px-0">
       <div className="w-full sm:max-w-5xl lg:max-w-7xl p-2 rounded-lg">
@@ -28,14 +50,14 @@ const Filter = () => {
 
           <input type="text" placeholder="Search by listing, location, bedroom number..."
             className="px-8 py-3 w-full rounded-md bg-gray-100 border-black focus:border-gray-500
-          focus:bg-white focus:ring-0 text-sm"/>
+          focus:bg-white focus:ring-0 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
 
 
         <div>
           <div className="flex flex-col md:flex-row  gap-4 mt-4">
-            <Select options={sources} option={{}} />
-            <Select options={categories} option={{}} />
+            <Select options={sources} option={setSourceOption} />
+            <Select options={categories} option={setCategoryOption} />
 
             <select className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
               <option value="">Authors</option>
@@ -48,7 +70,7 @@ const Filter = () => {
         </div>
         <div className="flex-none">
           <div className="relative py-8">
-            <button className="bg-black text-white rounded-md py-2 px-6 absolute bottom-0 right-0 mb-4 ">
+            <button className="bg-black text-white rounded-md py-2 px-6 bg-blue-600 absolute bottom-0 right-0 mb-4 ">
               Submit
             </button>
           </div>

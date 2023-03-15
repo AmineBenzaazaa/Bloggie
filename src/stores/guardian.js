@@ -7,7 +7,7 @@ const API_URL = `https://content.guardianapis.com/search?api-key=${_API_KEY}`;
 
 export const getGuardianNews = createAsyncThunk('guardian/getNews', async (page = 1) => {
     const res = await axios.get(API_URL + `&page=${page}`);
-    if(res && res.status === 200) {
+    if (res && res.status === 200) {
         return res.data.response?.results;
     }
 })
@@ -16,6 +16,16 @@ export const searchGuardian = createAsyncThunk('guardian/searchNews', async ({ p
     const res = await axios.get(API_URL + `&page=${page}&q=${param}`);
     if (res && res.status === 200)
         return res.data.response?.results;
+})
+
+export const filterGuardian = createAsyncThunk('guardian/filterNews', async ({ q, category }) => {
+    let builder;
+    if (q) builder += `&q=${q}`
+    if (category) builder += `category=${category}`
+    console.log(builder);
+    const res = await axios.get(API_URL + builder);
+    console.log(res.data)
+    return res.data;
 })
 
 export const guardianSlice = createSlice({
@@ -31,6 +41,9 @@ export const guardianSlice = createSlice({
             })
             .addCase(searchGuardian.fulfilled, (state, action) => {
                 state.data = action.payload;
+            })
+            .addCase(filterGuardian.fulfilled, (state, action) => {
+                state.data = action.payload
             })
     }
 })

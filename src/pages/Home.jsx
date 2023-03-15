@@ -23,7 +23,7 @@ const home = () => {
           res.payload.forEach(article => {
             if (res.type.startsWith('nyTimes')) {
               data.push({
-                id: 'nyTimes?'+article._id,
+                id: 'nyTimes_' + article.pub_date,
                 title: article.abstract,
                 description: article.lead_paragraph,
                 author: article.byline.original ? article.byline.original : 'Unknown', // author image
@@ -33,9 +33,9 @@ const home = () => {
             }
             if (res.type.startsWith('newsApi')) {
               data.push({
-                id: 'newsApi?'+article.id,
+                id: 'newsApi_' + article.publishedAt,
                 title: article.title,
-                description: article.description,
+                description: article.title,
                 author: article.source ? article.source.name : 'Unknown', // author image
                 image: article.urlToImage ? article.urlToImage : noImg,
                 link: article.url,
@@ -43,7 +43,7 @@ const home = () => {
             }
             if (res.type.startsWith('guardian')) {
               data.push({
-                id: 'guardian?'+article.webTitle,
+                id: 'guardian_' + article.webPublicationDate,
                 title: article.webTitle,
                 description: article.webTitle,
                 author: article.sectionName ? article.sectionName : 'Unknown', // author image
@@ -69,7 +69,7 @@ const home = () => {
     return null;
   };
 
-  
+
 
   return (
     <div className="">
@@ -82,13 +82,13 @@ const home = () => {
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
           {(articles && articles.length > 0) && articles.map((article, index) => (
-            <Link to={`/article/${article.id}`} >
-              <Article key={index} {...article} />
+            <Link key={index} to={`/single/${article.id}`} >
+              <Article {...article} />
             </Link>
           ))}
         </div>
         {(articles && articles.length > 0) && <div className="flex justify-center py-4">
-          <button onClick={() => setPage(page + 1)} className="bg-black hover:bg-black text-white  py-2 px-4 rounded">Load More</button>
+          <button onClick={() => setPage(page + 1)} className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded">Load More</button>
         </div>}
       </div>
     </div>

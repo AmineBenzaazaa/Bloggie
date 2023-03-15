@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNytNews } from '../stores/nytimes'
 import { useParams } from 'react-router-dom';
 import { Route, Routes, Link } from "react-router-dom"
-import Banner from '../components/Banner'
 import Filter from '../pages/filter'
 import noImg from '../assets/no_image.png'
 
@@ -70,7 +69,7 @@ const Guardian = () => {
             ))}
           </div>
           <div className="flex justify-center py-4">
-            <button className="bg-black hover:bg-black text-white  py-2 px-4 rounded" onClick={handleLoadMore}>Load More</button>
+            <button className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded" onClick={handleLoadMore}>Load More</button>
           </div>
         </div>
       </div>

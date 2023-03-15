@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewsApi } from '../stores/newsApi'
 import {useParams} from 'react-router-dom';
@@ -10,12 +10,13 @@ import Article from '../components/Article';
 const newsAPI = () => {
     const params = useParams();
     const dispatch = useDispatch();
+    const [pageNum, setPageNum] = useState(1); // keep track of the page number
     
     const newsApiData = useSelector((state) => state.newsApi);
     useEffect(() => {
-      dispatch(getNewsApi());
+      dispatch(getNewsApi(pageNum));
       console.log(newsApiData.data);
-    }, [dispatch]);
+    }, [dispatch,pageNum]);
   
     const shortenDescription = (description) => {
       if (!description) {
@@ -27,6 +28,9 @@ const newsAPI = () => {
       }
       return description;
     };
+    const handleLoadMore = () => {
+      setPageNum(pageNum + 1); // increment the page number when the button is clicked
+    }
   
     return (
       <div className="mx-auto max-w-7xl ">
@@ -46,13 +50,16 @@ const newsAPI = () => {
               />
               <div className="p-4">
                 <h2 className="text-lg font-bold mb-2">{article.title}</h2>
-                <p className="text-sm mb-2">{shortenDescription(article.description)}</p>
+                <p className="text-sm mb-2">{shortenDescription(article.title)}</p>
                 <p className="text-xs text-gray-600">
                   By <span className="text-xs text-blue-600 italic"> {article.author ? article.author : 'Unknown'}</span>  from <span className="text-xs text-blue-600 italic"> {article.source.name} </span> 
                 </p>
               </div>
             </Link>
           ))}
+        </div>
+        <div className="flex justify-center py-4">
+          <button className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded" onClick={handleLoadMore}>Load More</button>
         </div>
       </div>
     </div>
