@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNewsApi } from '../stores/newsApi'
 import {useParams} from 'react-router-dom';
 import { Route, Routes,Link } from "react-router-dom"
-import Banner from '../components/Banner'
 import Filter from '../pages/filter'
 import noImg from '../assets/no_image.png'
 import Article from '../components/Article';
@@ -22,7 +21,6 @@ const newsAPI = () => {
       if (!description) {
         return '';
       }
-      
       const words = description.split(' ');
       if (words.length > 30) {
         return words.slice(0, 30).join(' ') + '...';
@@ -32,10 +30,7 @@ const newsAPI = () => {
   
     return (
       <div className="mx-auto max-w-7xl ">
-        {/* <Head>
-          <title>Medium</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head> */}
+        
   
         
         <Filter />

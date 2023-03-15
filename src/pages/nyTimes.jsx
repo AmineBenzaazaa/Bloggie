@@ -44,10 +44,6 @@ const Guardian = () => {
 
     return (
       <div className="mx-auto max-w-7xl">
-        {/* <Head>
-          <title>Medium</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head> */}
 
 
         <Filter />

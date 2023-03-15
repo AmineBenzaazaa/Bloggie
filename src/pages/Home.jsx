@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getNewsApi } from '../stores/newsApi'
 import { NavLink, useParams } from 'react-router-dom';
 import { Route, Routes, Link } from "react-router-dom"
-import Banner from '../components/Banner'
 import Filter from '../pages/filter'
 import noImg from '../assets/no_image.png'
 import { getGuardianNews } from '../stores/guardian';
