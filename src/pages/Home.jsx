@@ -1,4 +1,4 @@
-import React, { useEffect,useState  } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewsApi } from '../stores/newsApi'
 import { useParams } from 'react-router-dom';
@@ -6,69 +6,90 @@ import { Route, Routes, Link } from "react-router-dom"
 import Banner from '../components/Banner'
 import Filter from '../pages/filter'
 import noImg from '../assets/no_image.png'
-
+import { getGuardianNews } from '../stores/guardian';
+import { getNytNews } from '../stores/nytimes';
+import Article from '../components/Article';
 
 const home = () => {
-  const params = useParams();
   const dispatch = useDispatch();
-  const [pageNum, setPageNum] = useState(1);
+  const [page, setPage] = useState(0);
+  const [articles, setArticles] = useState([])
   const newsApiData = useSelector((state) => state.newsApi.data.articles);
   useEffect(() => {
-    dispatch(getNewsApi(pageNum));
-  }, [dispatch,pageNum]);
+    Promise.all([dispatch(getNytNews(page)), dispatch(getGuardianNews(page + 1)), dispatch(getNewsApi(page))]).then(responses => {
+      const data = [];
+      console.log('responses', responses);
+      responses.forEach(res => {
+        if (res.payload) {
+          res.payload.forEach(article => {
+            if (res.type.startsWith('nyTimes')) {
+              data.push({
+                id: article._id,
+                title: article.abstract,
+                description: article.lead_paragraph,
+                author: article.byline.original ? article.byline.original : 'Unknown', // author image
+                image: getArticleImage(article) ? getArticleImage(article) : noImg,
+                link: article.web_url,
+              })
+            }
+            if (res.type.startsWith('newsApi')) {
+              data.push({
+                id: article.id,
+                title: article.title,
+                description: article.description,
+                author: article.source ? article.source.name : 'Unknown', // author image
+                image: article.urlToImage ? article.urlToImage : noImg,
+                link: article.url,
+              })
+            }
+            if (res.type.startsWith('guardian')) {
+              data.push({
+                id: article.id,
+                title: article.webTitle,
+                description: article.webTitle,
+                author: article.sectionName ? article.sectionName : 'Unknown', // author image
+                image: article.urlToImage ? article.urlToImage : noImg,
+                link: article.webUrl,
+              })
+            }
+          })
+        } else {
+          throw new Error(`No payload found for ${res.type}`)
+        }
+      });
+      setArticles([...articles, ...data]);
+    }).catch(err => console.log('error fetch articles', err))
+  }, [dispatch, page]);
 
-  const shortenDescription = (description) => {
-    if (!description) {
-      return '';
+  const getArticleImage = (article) => {
+    const multimedia = article.multimedia || [];
+    const image = multimedia.find((item) => item.type === 'image');
+    if (image) {
+      return `https://www.nytimes.com/${image.url}`;
     }
-
-    const words = description.split(' ');
-    if (words.length > 30) {
-      return words.slice(0, 30).join(' ') + '...';
-    }
-    return description;
+    return null;
   };
-  const handleLoadMore = () => {
-    setPageNum(pageNum + 1); // increment the page number when the button is clicked
-  }
+
   return (
     <div className="">
       <Filter />
-      {/* <Head>
-        <title>Medium</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head> */}
-
-
-      <div className="mx-auto sm:max-w-6xl lg:max-w-7xl py-4">
+      <div className="mx-auto sm:max-w-5xl lg:max-w-7xl py-4 px-5 lg:px-0">
         <div className="title ">
           <p className="mb-4 text-4xl font-bold text-black">
             Lastest articles
           </p>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
-          {newsApiData&& newsApiData.length>0 && newsApiData.map((article,index) => (
-            <Link key={article.title} className="group cursor-pointer overflow-hidden rounded-lg border" to={`/article/${index}`}>
-              <img
-                className="h-60 w-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
-                src={article.urlToImage ? article.urlToImage : noImg}
-                alt="Article Image"
-              />
-              <div className="p-4">
-                <h2 className="text-lg font-bold mb-2">{article.title}</h2>
-                <p className="text-sm mb-2">{shortenDescription(article.description)}</p>
-                <p className="text-xs text-gray-600">
-                  By <span className="text-xs text-blue-600 italic"> {article.author ? article.author : 'Unknown'}</span>  from <span className="text-xs text-blue-600 italic"> {article.source.name} </span>
-                </p>
-              </div>
-            </Link>
+          {console.log(articles)}
+          {(articles && articles.length > 0) && articles.map((article, index) => (
+            <Article key={index} {...article} />
           ))}
         </div>
-        <div className="flex justify-center py-4">
-            <button className="bg-black hover:bg-black text-white  py-2 px-4 rounded" onClick={handleLoadMore}>Load More</button>
-        </div>
+        {(articles && articles.length > 0) && <div className="flex justify-center py-4">
+          <button onClick={() => setPage(page + 1)} className="bg-black hover:bg-black text-white  py-2 px-4 rounded">Load More</button>
+        </div>}
+      </div>
     </div>
-  </div>
   );
 };
 export default home

@@ -16,7 +16,6 @@ const Guardian = () => {
       dispatch(getNytNews(pageNum));
     }, [dispatch, pageNum]);
     const NytNewsData = useSelector((state) => state.nyTimes.data.response?.docs);
-    console.log('NytNewsData',  NytNewsData);
 
     const shortenDescription = (description) => {
       if (!description) {

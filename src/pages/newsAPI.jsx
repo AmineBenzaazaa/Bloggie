@@ -15,10 +15,6 @@ const newsAPI = () => {
     useEffect(() => {
       dispatch(getNewsApi());
     }, [dispatch]);
-    
-    console.log(params);
-    console.log(newsApiData);
-    
   
     const shortenDescription = (description) => {
       const words = description.split(' ');

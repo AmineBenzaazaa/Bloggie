@@ -29,7 +29,6 @@ const Select = ({ options, placeholder }) => {
             <div className='border rounded relative cursor-pointer' onClick={showOptions}>
                 <div className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center h-10'>
                     {(selected && Object.keys(selected).length > 0) ? <>
-                        {selected.icon && <img src={selected.icon} alt={selected.name} className='object-cover' />}
                         <span className='capitalize font-semibold'>{selected.name}</span>
                     </> : <span className='capitalize font-medium whitespace-nowrap'>{placeholder}</span>}
                 </div>
@@ -37,9 +36,8 @@ const Select = ({ options, placeholder }) => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
             </div>
-            {show && <ul className='bg-white z-10 absolute top-100 left-0 w-full border text-start mt-1 rounded'>
-                {(options && options.length > 0) && options.map((option, idx) => <li key={idx} className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center' onClick={() => changeOption(idx, options)}>
-                    {option.icon && <img src={option.icon} alt={option.name} className='w-6 h-6 object-cover' />}
+            {show && <ul className='bg-white z-10 absolute top-100 left-0 w-full border text-start mt-1 rounded h-72 overflow-auto'>
+                {(options && options.length > 0) && options.map((option, idx) => option.name && <li key={idx} className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center' onClick={() => changeOption(idx, options)}>
                     <span>{option.name}</span>
                 </li>)}
             </ul>}

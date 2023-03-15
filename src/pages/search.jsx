@@ -37,7 +37,6 @@ const search = () => {
     useEffect(() => {
         Promise.all([dispatch(searchNyTimes({ param: q, page })), dispatch(searchGuardian({param: q, page})), dispatch(searchNewsApi({param: q, page}))])
             .then(responses => {
-                // console.log(responses, responses[0], responses[1])
                 const data = [];
                 responses.forEach(response => {
                     if (response.payload) {
