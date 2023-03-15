@@ -68,10 +68,10 @@ const Filter = () => {
   // ));
 
   return (
-    <div class="flex justify-center">
-      <div class="w-full md:w-3/4 p-2 rounded-lg">
-        <div class="flex items-center justify-between my-2">
-          <p class="mb-4 text-4xl font-bold text-black">
+    <div className="flex justify-center">
+      <div className="w-full md:w-3/4 p-2 rounded-lg">
+        <div className="flex items-center justify-between my-2">
+          <p className="mb-4 text-4xl font-bold text-black">
           Filters
           </p>
         </div>
@@ -90,16 +90,16 @@ const Filter = () => {
 
 
         <div>
-          <div class="flex flex-col md:flex-row  gap-4 mt-4">
+          <div className="flex flex-col md:flex-row  gap-4 mt-4">
             <Select options={_sources} />
 
-            <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+            <select className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
               <option value="">Categories</option>
               <option value="for-rent">For Rent</option>
               <option value="for-sale">For Sale</option>
             </select>
 
-            <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+            <select className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
               <option value="">Authors</option>
               <option value="fully-furnished">Fully Furnished</option>
               <option value="partially-furnished">Partially Furnished</option>
