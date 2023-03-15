@@ -35,10 +35,9 @@ const search = () => {
         return null;
     };
     useEffect(() => {
-        console.log('page', page)
-        Promise.all([dispatch(searchNyTimes({ param: q, page })), dispatch(searchGuardian(q)), dispatch(searchNewsApi(q, page))])
+        Promise.all([dispatch(searchNyTimes({ param: q, page })), dispatch(searchGuardian({param: q, page})), dispatch(searchNewsApi({param: q, page}))])
             .then(responses => {
-                console.log(responses, responses[0], responses[1])
+                // console.log(responses, responses[0], responses[1])
                 const data = [];
                 responses.forEach(response => {
                     if (response.payload) {
@@ -63,7 +62,7 @@ const search = () => {
                                     link: article.webUrl,
                                 })
                             }
-                            if (response.type.startsWith('newsapi')) {
+                            if (response.type.startsWith('newsApi')) {
                                 data.push({
                                     id: article.id,
                                     title: article.webTitle,
