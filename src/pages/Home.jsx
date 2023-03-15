@@ -13,7 +13,7 @@ const home = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [articles, setArticles] = useState([])
-  const newsApiData = useSelector((state) => state.newsApi.data.articles);
+  const [isFiltering, setIsFiltering] = useState(false);
   useEffect(() => {
     Promise.all([dispatch(getNytNews(page)), dispatch(getGuardianNews(page + 1)), dispatch(getNewsApi(page))]).then(responses => {
       const data = [];
@@ -58,7 +58,7 @@ const home = () => {
       });
       setArticles([...articles, ...data]);
     }).catch(err => console.log('error fetch articles', err))
-  }, [dispatch, page]);
+  }, [dispatch, page, isFiltering]);
 
   const getArticleImage = (article) => {
     const multimedia = article.multimedia || [];
@@ -69,11 +69,9 @@ const home = () => {
     return null;
   };
 
-
-
   return (
-    <div className="">
-      <Filter />
+    <>
+      <Filter isFiltering={isFiltering} setIsFiltering={setIsFiltering} />
       <div className="mx-auto sm:max-w-5xl lg:max-w-7xl py-4 px-5 lg:px-0">
         <div className="title ">
           <p className="mb-4 text-4xl font-bold text-black">
@@ -91,7 +89,7 @@ const home = () => {
           <button onClick={() => setPage(page + 1)} className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded">Load More</button>
         </div>}
       </div>
-    </div>
+    </>
   );
 };
 export default home

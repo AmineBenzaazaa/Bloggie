@@ -10,7 +10,7 @@ const sources = [
   { id: 2, name: 'New York Times' }
 ]
 
-const Filter = () => {
+const Filter = ({isFiltiring, setIsFiltering}) => {
   const dispatch = useDispatch()
   const [search, setSearch] = useState('');
   const [source, setSourceOption] = useState({});
@@ -18,6 +18,8 @@ const Filter = () => {
 
   const queryBuilder = () => {
     try {
+      if(!source) setSourceOption(sources[0])
+      return console.log(source.id, category.name)
       if (source.id === 0) {
         dispatch(filterNewsApi({ q: search, category }))
       }
@@ -27,6 +29,7 @@ const Filter = () => {
       if (source.id === 2) {
         filterNyTimes({ q: search, category })
       }
+      setIsFiltering(!isFiltiring);
     } catch (err) {
       return err;
     }
@@ -70,7 +73,11 @@ const Filter = () => {
         </div>
         <div className="flex-none">
           <div className="relative py-8">
+<<<<<<< HEAD
             <button className="bg-black text-white rounded-md py-2 px-6 bg-blue-600 absolute bottom-0 right-0 mb-4 ">
+=======
+            <button className="bg-black text-white rounded-md py-2 px-6 absolute bottom-0 right-0 mb-4" onClick={queryBuilder}>
+>>>>>>> 3d1cabd16e477fc5eaddb5f05abcb843a664d0ef
               Submit
             </button>
           </div>
