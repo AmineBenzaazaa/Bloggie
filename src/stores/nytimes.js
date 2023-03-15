@@ -18,6 +18,16 @@ export const searchNyTimes = createAsyncThunk('nyTimes/searchNews', async ({para
     }
 })
 
+export const filterNyTimes = createAsyncThunk('ntTimes/filterNews', async ({q, category}) => {
+    let builder;
+    if (q) builder += `&q=${q}`
+    if (category) builder += `category=${category}`
+    console.log(builder);
+    const res = await axios.get(API_URL + builder);
+    console.log(res.data);
+    return res.data;
+})
+
 export const nytApislice = createSlice({
     name: "nyTimes",
     initialState: {
@@ -30,6 +40,9 @@ export const nytApislice = createSlice({
                 state.data = action.payload
             })
             .addCase(searchNyTimes.fulfilled, (state, action) => {
+                state.data = action.payload
+            })
+            .addCase(filterNyTimes.fulfilled, (state, action) => {
                 state.data = action.payload
             })
     }
