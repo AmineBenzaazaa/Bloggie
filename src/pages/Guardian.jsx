@@ -15,8 +15,9 @@ const Guardian = () => {
     useEffect(() => {
       dispatch(getGuardianNews(pageNum));
     }, [dispatch, pageNum]);
-    const GuardianData = useSelector((state) => state.guardian.data.response?.results);
-    console.log(GuardianData);
+    
+    const GuardianData = useSelector((state) => state.guardian.data);
+    console.log('GuardianData', GuardianData);
 
     const shortenDescription = (description) => {
       if (!description) {

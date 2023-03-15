@@ -1,8 +1,29 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 
 const Article = () => {
+    const newTimes = useSelector(state => state.nyTimes) 
+    const guardian = useSelector(state => state.guardian) 
+    const newsAPI = useSelector(state => state.newsAPI) 
+    const [article,setArticle] = useState({});
     const { id } = useParams();
+    const SplitWord_ID = (id,separator = '?') =>{
+        if (!id || typeof id !== 'string') {
+            return '';
+          }
+        
+        const parts = id.split(separator);
+        
+        if(parts[0]==='nyTimes'){
+           setArticle(newTimes.data.find((item) => item.id==parts[1]))
+        }else if (parts[0]==='guardian'){
+            setArticle(guardian.data.find((item) => item.id==parts[1]))
+        }else{
+            setArticle(newsAPI.data.find((item) => item.webTitle==parts[1]))
+        }
+    }
+    console.log(id);
     return (<div> {id} </div>)
 
     // return (

@@ -6,21 +6,23 @@ import { Route, Routes,Link } from "react-router-dom"
 import Banner from '../components/Banner'
 import Filter from '../pages/filter'
 import noImg from '../assets/no_image.png'
+import Article from '../components/Article';
 
 const newsAPI = () => {
     const params = useParams();
     const dispatch = useDispatch();
     
-    const newsApiData = useSelector((state) => state.newsApi.data.articles);
+    const newsApiData = useSelector((state) => state.newsApi);
     useEffect(() => {
       dispatch(getNewsApi());
+      console.log(newsApiData.data);
     }, [dispatch]);
-    
-    console.log(params);
-    console.log(newsApiData);
-    
   
     const shortenDescription = (description) => {
+      if (!description) {
+        return '';
+      }
+      
       const words = description.split(' ');
       if (words.length > 30) {
         return words.slice(0, 30).join(' ') + '...';
@@ -39,7 +41,8 @@ const newsAPI = () => {
         <Filter />
         <div className="mx-auto md:max-w-6xl lg:max-w-7xl py-4">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
-          {newsApiData&& newsApiData.length>0 && newsApiData.map((article) => (
+       
+          {newsApiData.data&& newsApiData.data.length>0 && newsApiData.data.map((article) => (
             <Link key={article.title} className="group cursor-pointer overflow-hidden rounded-lg border" to={`/article/${article.id}`}>
               <img
                 className="h-60 w-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
