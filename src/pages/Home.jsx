@@ -24,7 +24,7 @@ const home = () => {
           res.payload.forEach(article => {
             if (res.type.startsWith('nyTimes')) {
               data.push({
-                id: 'nyTimes?'+article._id,
+                id: 'nyTimes_' + article.pub_date,
                 title: article.abstract,
                 description: article.lead_paragraph,
                 author: article.byline.original ? article.byline.original : 'Unknown', // author image
@@ -34,7 +34,7 @@ const home = () => {
             }
             if (res.type.startsWith('newsApi')) {
               data.push({
-                id: 'newsApi?'+article.id,
+                id: 'newsApi_' + article.publishedAt,
                 title: article.title,
                 description: article.description,
                 author: article.source ? article.source.name : 'Unknown', // author image
@@ -44,7 +44,7 @@ const home = () => {
             }
             if (res.type.startsWith('guardian')) {
               data.push({
-                id: 'guardian?'+article.webTitle,
+                id: 'guardian_' + article.webPublicationDate,
                 title: article.webTitle,
                 description: article.webTitle,
                 author: article.sectionName ? article.sectionName : 'Unknown', // author image
@@ -70,7 +70,7 @@ const home = () => {
     return null;
   };
 
-  
+
 
   return (
     <div className="">
@@ -83,7 +83,7 @@ const home = () => {
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
           {(articles && articles.length > 0) && articles.map((article, index) => (
-            <Link key={index} to={`/article/${article.id}`} >
+            <Link key={index} to={`/single/${article.id}`} >
               <Article {...article} />
             </Link>
           ))}

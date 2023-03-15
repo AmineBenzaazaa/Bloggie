@@ -1,23 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 
-const Article = () => {
+const SingleArticle = () => {
     const newTimes = useSelector(state => state.nyTimes)
     const guardian = useSelector(state => state.guardian)
     const newsAPI = useSelector(state => state.newsAPI)
     const [article, setArticle] = useState({});
     const { id } = useParams();
-    const splitSourceId = (id, separator = '?') => {
-        if (!id || typeof id !== 'string') {
-            return '';
-        }
-        return id.split(separator);
-    }
-    console.log(id);
     useEffect(() => {
-        const parts = splitSourceId(id)
-        return console.log('parts', parts)
+        const source = id.split('_')[0]
+        const _id = id.split('_')[1]
+        return console.log('source', source)
         if (parts[0] === 'nyTimes') {
             setArticle(newTimes.data.find((item) => item.id == parts[1]))
         } else if (parts[0] === 'guardian') {
@@ -26,7 +20,7 @@ const Article = () => {
             setArticle(newsAPI.data.find((item) => item.webTitle == parts[1]))
         }
     }, [])
-    return <div> {id} </div>
+    return <div> id {id} </div>
 
     // return (
     //     <main>
@@ -169,4 +163,4 @@ const Article = () => {
     // )
 }
 
-export default Article
+export default SingleArticle
