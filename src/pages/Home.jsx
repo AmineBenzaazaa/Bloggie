@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewsApi } from '../stores/newsApi'
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { Route, Routes, Link } from "react-router-dom"
 import Banner from '../components/Banner'
 import Filter from '../pages/filter'
@@ -24,7 +24,7 @@ const home = () => {
           res.payload.forEach(article => {
             if (res.type.startsWith('nyTimes')) {
               data.push({
-                id: article._id,
+                id: 'nyTimes?'+article._id,
                 title: article.abstract,
                 description: article.lead_paragraph,
                 author: article.byline.original ? article.byline.original : 'Unknown', // author image
@@ -34,7 +34,7 @@ const home = () => {
             }
             if (res.type.startsWith('newsApi')) {
               data.push({
-                id: article.id,
+                id: 'newsApi?'+article.id,
                 title: article.title,
                 description: article.description,
                 author: article.source ? article.source.name : 'Unknown', // author image
@@ -44,7 +44,7 @@ const home = () => {
             }
             if (res.type.startsWith('guardian')) {
               data.push({
-                id: article.id,
+                id: 'guardian?'+article.webTitle,
                 title: article.webTitle,
                 description: article.webTitle,
                 author: article.sectionName ? article.sectionName : 'Unknown', // author image
@@ -70,6 +70,8 @@ const home = () => {
     return null;
   };
 
+  
+
   return (
     <div className="">
       <Filter />
@@ -80,9 +82,10 @@ const home = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
-          {console.log(articles)}
           {(articles && articles.length > 0) && articles.map((article, index) => (
-            <Article key={index} {...article} />
+            <Link key={index} to={`/article/${article.id}`} >
+              <Article {...article} />
+            </Link>
           ))}
         </div>
         {(articles && articles.length > 0) && <div className="flex justify-center py-4">

@@ -14,7 +14,7 @@ const Article = ({ image, title, description, author, authorSrc }) => {
     
 
     return (
-        <div className="group cursor-pointer overflow-hidden rounded-lg border">
+        <div className="group cursor-pointer overflow-hidden rounded-lg border" >
             {image && <img
                 className="h-60 w-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
                 src={image}
