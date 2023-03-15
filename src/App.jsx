@@ -41,7 +41,10 @@ function App() {
         <Route path="/NewsCred" element={<NewsAPI/>}/>
         <Route path="/BBCNews" element={<NewsAPI/>}/>
         <Route path='/search' element={<Search />} />
-        <Route path="/article/:id" element={<Article />} />
+        <Route path="/article/:id" render={({ match }) => (
+          <Article articleData={newsApiData[match.params.id]} />
+        )} />
+
       </Routes>
     </>
   )
