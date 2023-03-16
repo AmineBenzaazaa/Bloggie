@@ -37,7 +37,7 @@ function Header() {
                     {/* <Link className='cursor-pointer' to="/NewsCred">NewsCred</Link> */}
                     <Link className='cursor-pointer hover:text-blue-700' to="/TheGuardian">The Guardian</Link>
                     <Link className='cursor-pointer hover:text-blue-700' to="/NewYorkTimes">New York Times</Link>
-                    <Link className='cursor-pointer hover:text-blue-700' to="/BBCNews">BBC News</Link>
+                    {/* <Link className='cursor-pointer hover:text-blue-700' to="/BBCNews">BBC News</Link> */}
                 </div>
             </div>
             {!isAuthenticated ? <div className="flex items-center space-x-5 text-blue-600 ">
