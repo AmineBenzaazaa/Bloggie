@@ -46,7 +46,7 @@ const home = () => {
                 image: article.urlToImage ? article.urlToImage : noImg,
                 link: article.url,
                 _createdAt: article.publishedAt,
-                
+
               })
             }
             if (res.type.startsWith('guardian')) {
@@ -70,8 +70,8 @@ const home = () => {
   }, [dispatch, page]);
 
   useEffect(() => {
-    if (isFiltering === 0 && newsApi.data && newsApi.data.length > 0) {
-      console.log('newsapi', newsApi.data)
+    if (isFiltering === 0 && newsApi.filteredData && newsApi.filteredData.length > 0) {
+      console.log('newsapi', newsApi.filteredData)
       const data = newsApi.filteredData.map((article) => {
         return {
           id: 'guardian_' + article.webPublicationDate,
@@ -82,10 +82,10 @@ const home = () => {
           link: article.webUrl,
         }
       })
-      setArticles(data)
+      if (data && data.length > 0) setArticles(data)
     }
-    if (isFiltering === 1 && nyTimes.data && nyTimes.data.length > 0) {
-      console.log('guardian', guardian.data)
+    if (isFiltering === 1 && guardian.filteredData && guardian.filteredData.length > 0) {
+      console.log('guardian', guardian.filteredData)
       const data = guardian.filteredData.map((article) => {
         return {
           id: 'guardian_' + article.webPublicationDate,
@@ -96,10 +96,10 @@ const home = () => {
           link: article.webUrl,
         }
       })
-      setArticles(data)
+      if (data && data.length > 0) setArticles(data)
     }
-    if (isFiltering === 2 && guardian.data && guardian.data.length > 0) {
-      console.log('nyTimes', nyTimes.data)
+    if (isFiltering === 2 && nyTimes.filteredData && nyTimes.filteredData.length > 0) {
+      console.log('nyTimes filteredData', nyTimes.filteredData)
       const data = nyTimes.filteredData.map((article) => {
         return {
           id: 'nyTimes_' + article.pub_date,
@@ -110,7 +110,7 @@ const home = () => {
           link: article.web_url,
         }
       })
-      setArticles(data)
+      if (data && data.length > 0) setArticles(data)
     }
   }, [isFiltering])
 

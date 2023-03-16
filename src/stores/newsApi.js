@@ -25,8 +25,9 @@ export const filterNewsApi = createAsyncThunk('newsApi/filterNews', async ({ q, 
     let builder = '';
     if (q) builder += `&q=${q}`;
     if (category) builder += `&category=${category}`;
-    const res = await axios.get(`https://newsapi.org/v2/top-headlines/sources?apiKey=${API_KEY}${builder}&pageSize=10`);
-    console.log(res.data.sources);
+    console.log(builder)
+    const res = await axios.get(`https://newsapi.org/v2/top-headlines/sources?apiKey=${_API_KEY}${builder}`);
+    console.log('response', res)
     if (res && res.status === 200) {
         return res.data.sources;
     }

@@ -21,10 +21,9 @@ export const searchGuardian = createAsyncThunk('guardian/searchNews', async ({ p
 export const filterGuardian = createAsyncThunk('guardian/filterNews', async ({ q, category }) => {
     let builder = '';
     if (q) builder += `&q=${q}`
-    if (category) builder += `&category=${category}`
-    console.log(builder);
+    if (category) builder += `&tag=${category}`
     const res = await axios.get(API_URL + builder);
-    console.log('guardian', res)
+    console.log('guardian', res.data.response)
     if (res && res.status === 200) {
         return res.data.response?.results;
     }
