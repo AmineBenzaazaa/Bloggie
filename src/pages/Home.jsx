@@ -46,7 +46,6 @@ const home = () => {
                 image: article.urlToImage ? article.urlToImage : noImg,
                 link: article.url,
                 _createdAt: article.publishedAt,
-
               })
             }
             if (res.type.startsWith('guardian')) {
@@ -74,12 +73,14 @@ const home = () => {
       console.log('newsapi', newsApi.filteredData)
       const data = newsApi.filteredData.map((article) => {
         return {
-          id: 'guardian_' + article.webPublicationDate,
-          title: article.webTitle,
-          description: article.webTitle,
-          author: article.sectionName ? article.sectionName : 'Unknown', // author image
+          id: 'newsapi_' + article.webPublicationDate,
+          title: article.description,
+          description: article.description,
+          author: article.name ? article.name : 'Unknown', // author image
           image: article.urlToImage ? article.urlToImage : noImg,
-          link: article.webUrl,
+          link: article.url,
+          _createdAt: article.publishedAt,
+          
         }
       })
       if (data && data.length > 0) setArticles(data)
@@ -94,6 +95,7 @@ const home = () => {
           author: article.sectionName ? article.sectionName : 'Unknown', // author image
           image: article.urlToImage ? article.urlToImage : noImg,
           link: article.webUrl,
+          _createdAt: article.webPublicationDate,
         }
       })
       if (data && data.length > 0) setArticles(data)
@@ -108,6 +110,7 @@ const home = () => {
           author: article.byline.original ? article.byline.original : 'Unknown', // author image
           image: getArticleImage(article) ? getArticleImage(article) : noImg,
           link: article.web_url,
+          _createdAt: article.pub_date,
         }
       })
       if (data && data.length > 0) setArticles(data)

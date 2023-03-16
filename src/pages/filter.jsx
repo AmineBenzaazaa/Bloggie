@@ -53,8 +53,8 @@ const Filter = ({ isFiltiring, setIsFiltering }) => {
           </div>
 
           <input type="text" placeholder="Search by listing, location, bedroom number..."
-            className="px-8 py-3 w-full rounded-md bg-gray-100 border-black focus:border-gray-500
-          focus:bg-white focus:ring-0 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
+            className="px-8 py-3 w-full rounded-md bg-white border
+           focus:ring-0 text-sm" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
 
         <div>

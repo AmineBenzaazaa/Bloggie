@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "author": "Mohamed Ait Ouahmane",
+  "author": "Mohammed Amine Benzaazaa",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

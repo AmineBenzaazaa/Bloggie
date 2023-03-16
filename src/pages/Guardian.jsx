@@ -3,23 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getGuardianNews } from '../stores/guardian'
 import { useParams } from 'react-router-dom';
 import { Route, Routes, Link } from "react-router-dom"
-import Filter from '../pages/filter'
 import noImg from '../assets/no_image.png'
 
 
 const Guardian = () => {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([])
-  const [isFiltering, setIsFiltering] = useState(false);
   useEffect(() => {
-    Promise.all([dispatch(getGuardianNews(page))]).then(responses => {
+    dispatch(getGuardianNews(page)).then(res => {
       const data = [];
-      console.log('responses', responses);
-      responses.forEach(res => {
-        if (res.payload) {
+      if (res.payload) {
           res.payload.forEach(article => {
-            if (res.type.startsWith('guardian_')) {
+            if (res.type.startsWith('guardian')) {
               data.push({
                 id: 'guardian_' + article.webPublicationDate,
                 title: article.webTitle,
@@ -34,10 +30,9 @@ const Guardian = () => {
         } else {
           throw new Error(`No payload found for ${res.type}`)
         }
-      });
       setArticles([...articles, ...data]);
     }).catch(err => console.log('error fetch articles', err))
-  }, [dispatch, page, isFiltering]);
+  }, [dispatch, page]);
   
   const shortenDescription = (description) => {
       if (!description) {
@@ -55,7 +50,6 @@ const Guardian = () => {
     <div className="mx-auto max-w-7xl">
 
 
-      <Filter />
       <div className="mx-auto md:max-w-6xl lg:max-w-7xl py-4">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
           {articles && articles.length>0 && articles.map((article,index) => (
@@ -79,9 +73,9 @@ const Guardian = () => {
             </Link>
           ))}
         </div>
-        <div className="flex justify-center py-4">
-          <button onClick={() => setPage(page + 1)} className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded" >Load More</button>
-        </div>
+        {(articles && articles.length > 0) && <div className="flex justify-center py-4">
+          <button onClick={() => setPage(page + 1)} className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded">Load More</button>
+        </div>}
       </div>
     </div>
   );

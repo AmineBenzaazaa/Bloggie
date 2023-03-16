@@ -11,7 +11,7 @@ const Article = ({ image, title, description, author, authorSrc, _createdAt }) =
     const _title = trimString(title);
     const _author = trimString(author);
     const _description = trimString(description, 100);
-    const createdAt = trimString(_createdAt)
+    const createdAt = (_createdAt)
     
 
     return (
