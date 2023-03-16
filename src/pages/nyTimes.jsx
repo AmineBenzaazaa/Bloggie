@@ -112,7 +112,7 @@ const Guardian = () => {
             ))}
           </div>
           <div className="flex justify-center py-4">
-            <button className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded" >Load More</button>
+            <button onClick={() => setPage(page + 1)} className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded" >Load More</button>
           </div>
         </div>
       </div>
