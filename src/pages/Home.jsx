@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewsApi } from '../stores/newsApi'
+import { Helmet } from 'react-helmet';
 import { NavLink, useParams } from 'react-router-dom';
 import { Route, Routes, Link } from "react-router-dom"
 import Filter from '../pages/filter'
@@ -8,6 +9,7 @@ import noImg from '../assets/no_image.png'
 import { getGuardianNews } from '../stores/guardian';
 import { getNytNews } from '../stores/nytimes';
 import Article from '../components/Article';
+
 
 const home = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const home = () => {
                 author: article.byline.original ? article.byline.original : 'Unknown', // author image
                 image: getArticleImage(article) ? getArticleImage(article) : noImg,
                 link: article.web_url,
+                _createdAt: article.pub_date,
               })
             }
             if (res.type.startsWith('newsApi')) {
@@ -39,6 +42,8 @@ const home = () => {
                 author: article.source ? article.source.name : 'Unknown', // author image
                 image: article.urlToImage ? article.urlToImage : noImg,
                 link: article.url,
+                _createdAt: article.publishedAt,
+                
               })
             }
             if (res.type.startsWith('guardian')) {
@@ -49,6 +54,7 @@ const home = () => {
                 author: article.sectionName ? article.sectionName : 'Unknown', // author image
                 image: article.urlToImage ? article.urlToImage : noImg,
                 link: article.webUrl,
+                _createdAt: article.webPublicationDate,
               })
             }
           })
@@ -70,7 +76,11 @@ const home = () => {
   };
 
   return (
-    <>
+    <div>
+      <Helmet>
+        <title>Bloggie</title>
+        <link rel="icon" href="./assets/Bloggie_fav.png" />
+      </Helmet>
       <Filter isFiltering={isFiltering} setIsFiltering={setIsFiltering} />
       <div className="mx-auto sm:max-w-5xl lg:max-w-7xl py-4 px-5 lg:px-0">
         <div className="title ">
@@ -89,7 +99,7 @@ const home = () => {
           <button onClick={() => setPage(page + 1)} className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded">Load More</button>
         </div>}
       </div>
-    </>
+    </div>
   );
 };
 export default home

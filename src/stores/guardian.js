@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 
 const API_KEY = "d4941de0-89b4-4401-829b-615f7779f497";
-const _API_KEY = "580cb5a0-00b2-4a04-8997-5c623f1cfbbe"
+const _API_KEY = "33cabbe9-20be-4630-b3c2-0781f6a9db90"
 const API_URL = `https://content.guardianapis.com/search?api-key=${_API_KEY}`;
 
 export const getGuardianNews = createAsyncThunk('guardian/getNews', async (page = 1) => {

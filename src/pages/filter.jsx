@@ -73,11 +73,7 @@ const Filter = ({isFiltiring, setIsFiltering}) => {
         </div>
         <div className="flex-none">
           <div className="relative py-8">
-<<<<<<< HEAD
-            <button className="bg-black text-white rounded-md py-2 px-6 bg-blue-600 absolute bottom-0 right-0 mb-4 ">
-=======
-            <button className="bg-black text-white rounded-md py-2 px-6 absolute bottom-0 right-0 mb-4" onClick={queryBuilder}>
->>>>>>> 3d1cabd16e477fc5eaddb5f05abcb843a664d0ef
+            <button className="text-white rounded-md py-2 px-6 bg-blue-600 absolute bottom-0 right-0 mb-4 " onClick={queryBuilder}>
               Submit
             </button>
           </div>
