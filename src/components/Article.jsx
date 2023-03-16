@@ -1,7 +1,7 @@
 import React from 'react'
 import {useParams} from 'react-router-dom';
 
-const Article = ({ image, title, description, author, authorSrc }) => {
+const Article = ({ image, title, description, author, authorSrc, _createdAt }) => {
     function trimString(str, maxLength = 20) {
         if (str && str.length > maxLength) {
             return str.slice(0, maxLength) + "...";
@@ -11,6 +11,7 @@ const Article = ({ image, title, description, author, authorSrc }) => {
     const _title = trimString(title);
     const _author = trimString(author);
     const _description = trimString(description, 100);
+    const createdAt = trimString(_createdAt)
     
 
     return (
@@ -32,6 +33,11 @@ const Article = ({ image, title, description, author, authorSrc }) => {
                     src={authorSrc}
                     alt="author's Image"
                 />}
+            </div>
+            <div className="p-4">
+                <p className="text-xs text-gray-600">
+                    Blog post by <span className="text-xs text-blue-600 italic"> {author ? author : 'Unknown'}</span>  Published at <span className="text-xs text-blue-600 italic"> {new Date(createdAt).toLocaleString('en-us')} </span> 
+                </p>
             </div>
         </div>
     )

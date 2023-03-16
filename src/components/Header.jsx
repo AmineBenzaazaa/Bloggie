@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react'
 
+// ** media
+import Logo from '../assets/_logo.svg';
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -25,16 +28,16 @@ function Header() {
     return (
         <nav className="flex justify-between p-5 max-w-7xl mx-auto whitespace-nowrap">
             <div className="flex items-center space-x-5">
+                <div className="hidden md:inline-flex items-center space-x-12 font-bold	">
                 <Link to='/'>
-                    <img className="w-44 object-contain cursor-pointer" src="https://links.papareact.com/yvf" alt="Medium logo" />
+                    <img className="w-32 pb-2 object-contain cursor-pointer" src={Logo} alt="Blogie logo" />
                 </Link>
-                <div className="hidden md:inline-flex items-center space-x-5">
-                    <Link className='cursor-pointer' to="/NewsAPI">NewsAPI</Link>
+                    <Link className='cursor-pointer hover:text-blue-700' to="/NewsAPI">NewsAPI</Link>
                     {/* <Link className='cursor-pointer' to="/OpenNews">OpenNews</Link> */}
                     {/* <Link className='cursor-pointer' to="/NewsCred">NewsCred</Link> */}
-                    <Link className='cursor-pointer' to="/TheGuardian">The Guardian</Link>
-                    <Link className='cursor-pointer' to="/NewYorkTimes">New York Times</Link>
-                    <Link className='cursor-pointer' to="/BBCNews">BBC News</Link>
+                    <Link className='cursor-pointer hover:text-blue-700' to="/TheGuardian">The Guardian</Link>
+                    <Link className='cursor-pointer hover:text-blue-700' to="/NewYorkTimes">New York Times</Link>
+                    {/* <Link className='cursor-pointer hover:text-blue-700' to="/BBCNews">BBC News</Link> */}
                 </div>
             </div>
             {!isAuthenticated ? <div className="flex items-center space-x-5 text-blue-600 ">
@@ -44,7 +47,7 @@ function Header() {
                 <div>
                     <Menu.Button className="flex flex-row gap-2 justify-center items-center rounded-full">
                       <span className="sr-only">Open user menu</span>
-                      <div className='w-8 h-8 bg-gray-200 rounded-full text-xs flex justify-center items-center uppercase'>{user?.name?.slice(0, 2)}</div>
+                      <div className='w-8 h-8 bg-blue-600 rounded-full text-white text-xs flex justify-center items-center uppercase'>{user?.name?.slice(0, 2)}</div>
                       <div className='hidden lg:block text-start'>
                         <span className='block text-sm font-semibold text-gray-800 capitalize'>{user?.name}</span>
                         <span className='block text-xs text-gray-400'>{user?.email}</span>

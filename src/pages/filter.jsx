@@ -66,7 +66,7 @@ const Filter = ({ isFiltiring, setIsFiltering }) => {
         </div>
         <div className="flex-none">
           <div className="relative py-8">
-            <button className="bg-black text-white rounded-md py-2 px-6 absolute bottom-0 right-0 mb-4" onClick={queryBuilder}>
+            <button className="text-white rounded-md py-2 px-6 bg-blue-600 absolute bottom-0 right-0 mb-4 " onClick={queryBuilder}>
               Submit
             </button>
           </div>

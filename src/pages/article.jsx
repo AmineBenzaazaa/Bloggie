@@ -19,8 +19,8 @@ const SingleArticle = () => {
         } else {
             setArticle(newsAPI.data.find((item) => item.webTitle == parts[1]))
         }
-    }, [])
-    return <div> id {id} </div>
+        }, [])
+        return <div> id {id} </div>
 
     // return (
     //     <main>

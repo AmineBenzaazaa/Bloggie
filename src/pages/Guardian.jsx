@@ -3,23 +3,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getGuardianNews } from '../stores/guardian'
 import { useParams } from 'react-router-dom';
 import { Route, Routes, Link } from "react-router-dom"
-import Banner from '../components/Banner'
 import Filter from '../pages/filter'
 import noImg from '../assets/no_image.png'
 
 
 const Guardian = () => {
-    const params = useParams();
-    const dispatch = useDispatch();
-    const [pageNum, setPageNum] = useState(1); // keep track of the page number
-    useEffect(() => {
-      dispatch(getGuardianNews(pageNum));
-    }, [dispatch, pageNum]);
-    
-    const GuardianData = useSelector((state) => state.guardian.data);
-    console.log('GuardianData', GuardianData);
-
-    const shortenDescription = (description) => {
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(0);
+  const [articles, setArticles] = useState([])
+  const [isFiltering, setIsFiltering] = useState(false);
+  useEffect(() => {
+    Promise.all([dispatch(getGuardianNews(page))]).then(responses => {
+      const data = [];
+      console.log('responses', responses);
+      responses.forEach(res => {
+        if (res.payload) {
+          res.payload.forEach(article => {
+            if (res.type.startsWith('guardian_')) {
+              data.push({
+                id: 'guardian_' + article.webPublicationDate,
+                title: article.webTitle,
+                description: article.webTitle,
+                author: article.sectionName ? article.sectionName : 'Unknown', // author image
+                image: article.urlToImage ? article.urlToImage : noImg,
+                link: article.webUrl,
+                _createdAt: article.webPublicationDate,
+              })
+            }
+          })
+        } else {
+          throw new Error(`No payload found for ${res.type}`)
+        }
+      });
+      setArticles([...articles, ...data]);
+    }).catch(err => console.log('error fetch articles', err))
+  }, [dispatch, page, isFiltering]);
+  
+  const shortenDescription = (description) => {
       if (!description) {
         return '';
       }
@@ -31,44 +51,40 @@ const Guardian = () => {
       return description;
     };
 
-    const handleLoadMore = () => {
-      setPageNum(pageNum + 1); // increment the page number when the button is clicked
-    }
-
-    return (
-      <div className="mx-auto max-w-7xl">
-        {/* <Head>
-          <title>Medium</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head> */}
+  return (
+    <div className="mx-auto max-w-7xl">
 
 
-        <Filter />
-        <div className="mx-auto md:max-w-6xl lg:max-w-7xl py-4">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
-            {GuardianData && GuardianData.length>0 && GuardianData.map((article) => (
-              <Link key={article.webTitle} className="group cursor-pointer overflow-hidden rounded-lg border" to={`/article/${article.id}`}>
+      <Filter />
+      <div className="mx-auto md:max-w-6xl lg:max-w-7xl py-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
+          {articles && articles.length>0 && articles.map((article,index) => (
+            <Link key={index} to={`/single/${article.id}`} className="group cursor-pointer overflow-hidden rounded-lg border">
+              {article.image && (
                 <img
+                  key={article._id}
                   className="h-60 w-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
-                  src={article.urlToImage?article.urlToImage:noImg}
+                  src={article.image?article.image:noImg}
                   alt="Article Image"
                 />
-                <div className="p-4">
-                  <h2 className="text-lg font-bold mb-2">{article.webTitle}</h2>
-                  <p className="text-sm mb-2">{shortenDescription(article.webTitle)}</p>
-                  <p className="text-xs text-gray-600">
-                    Section <span className="text-xs text-blue-600 italic"> {article.sectionName ? article.sectionName : 'Unknown'}</span>  type <span className="text-xs text-blue-600 italic"> {article.type} </span> 
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="flex justify-center py-4">
-            <button className="bg-black hover:bg-black text-white  py-2 px-4 rounded" onClick={handleLoadMore}>Load More</button>
-          </div>
+              )}
+              <div className="p-4">
+                <h2 className="text-lg font-bold mb-2">{article.title}</h2>
+                <p className="text-sm mb-2">{shortenDescription(article.description)}</p>
+                <p className="text-xs text-gray-600">
+                  Source <span className="text-xs text-blue-600 italic"> {article.author ? article.author : 'Unknown'}
+                  </span> Published at <span className="text-xs text-blue-600 italic"> {new Date(article._createdAt).toLocaleString('en-us')} </span> 
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="flex justify-center py-4">
+          <button className="bg-blue-600 hover:bg-black text-white  py-2 px-4 rounded" >Load More</button>
         </div>
       </div>
-    );
+    </div>
+  );
   }
 
 export default Guardian
