@@ -19,19 +19,22 @@ export const searchGuardian = createAsyncThunk('guardian/searchNews', async ({ p
 })
 
 export const filterGuardian = createAsyncThunk('guardian/filterNews', async ({ q, category }) => {
-    let builder;
+    let builder = '';
     if (q) builder += `&q=${q}`
-    if (category) builder += `category=${category}`
+    if (category) builder += `&category=${category}`
     console.log(builder);
     const res = await axios.get(API_URL + builder);
-    console.log(res.data)
-    return res.data;
+    console.log('guardian', res)
+    if (res && res.status === 200) {
+        return res.data.response?.results;
+    }
 })
 
 export const guardianSlice = createSlice({
     name: "guardianNews",
     initialState: {
         data: [],
+        filteredData: [],
     },
     reducers: {},
     extraReducers: builder => {
@@ -43,7 +46,7 @@ export const guardianSlice = createSlice({
                 state.data = action.payload;
             })
             .addCase(filterGuardian.fulfilled, (state, action) => {
-                state.data = action.payload
+                state.filteredData = action.payload
             })
     }
 })

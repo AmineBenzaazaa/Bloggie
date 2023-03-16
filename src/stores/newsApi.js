@@ -22,19 +22,21 @@ export const searchNewsApi = createAsyncThunk('newsApi/searchNews', async ({ par
 });
 
 export const filterNewsApi = createAsyncThunk('newsApi/filterNews', async ({ q, category }) => {
-    let builder;
-    if (q) builder += `&q=${q}`
-    if (category) builder += `category=${category}`
-    console.log(builder);
-    const res = await axios.get(API_URL + builder);
-    console.log(res.data);
-    return res.data
+    let builder = '';
+    if (q) builder += `&q=${q}`;
+    if (category) builder += `&category=${category}`;
+    const res = await axios.get(`https://newsapi.org/v2/top-headlines/sources?apiKey=${API_KEY}${builder}&pageSize=10`);
+    console.log(res.data.sources);
+    if (res && res.status === 200) {
+        return res.data.sources;
+    }
 })
 
 export const newApislice = createSlice({
     name: "newsApi",
     initialState: {
         data: [],
+        filteredData: [],
     },
     reducers: {},
     extraReducers: builder => {
@@ -46,7 +48,7 @@ export const newApislice = createSlice({
                 state.data = action.payload
             })
             .addCase(filterNewsApi.fulfilled, (state, action) => {
-                state.data = action.payload
+                state.filteredData = action.payload
             })
     }
 });

@@ -30,7 +30,7 @@ const Select = ({ options, placeholder, option }) => {
             <div className='border rounded relative cursor-pointer' onClick={showOptions}>
                 <div className='hover:bg-gray-50 p-2 cursor-pointer flex flex-row gap-2 justify-start items-center h-10'>
                     {(selected && Object.keys(selected).length > 0) ? <>
-                        <span className='capitalize font-semibold'>{selected.name}</span>
+                        <span className='capitalize'>{selected.name}</span>
                     </> : <span className='capitalize font-medium whitespace-nowrap'>{placeholder}</span>}
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 absolute top-1/2 -translate-y-1/2 right-2">

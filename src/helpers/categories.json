@@ -1,6 +1,7 @@
 [
     {
-        "name": ""
+        "id": 0,
+        "name": "Select category"
     },
     {
         "name": "Arts"

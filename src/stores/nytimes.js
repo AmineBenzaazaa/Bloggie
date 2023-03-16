@@ -18,20 +18,24 @@ export const searchNyTimes = createAsyncThunk('nyTimes/searchNews', async ({para
     }
 })
 
+// https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=fOXEojUtTzFeYG77KiwUTP0TbZ1YHzHp&q=election&fq=food&page=0
 export const filterNyTimes = createAsyncThunk('ntTimes/filterNews', async ({q, category}) => {
-    let builder;
+    let builder = '';
     if (q) builder += `&q=${q}`
-    if (category) builder += `category=${category}`
-    console.log(builder);
+    if (category) builder += `&fq=${category}`
+    console.log('builder', builder);
     const res = await axios.get(API_URL + builder);
-    console.log(res.data);
-    return res.data;
+    console.log('nytimes', res)
+    if(res && res.status === 200) {
+        return res.data.response?.docs;
+    }
 })
 
 export const nytApislice = createSlice({
     name: "nyTimes",
     initialState: {
         data: [],
+        filteredData: [],
     },
     reducers: {},
     extraReducers: builder => {
@@ -43,7 +47,7 @@ export const nytApislice = createSlice({
                 state.data = action.payload
             })
             .addCase(filterNyTimes.fulfilled, (state, action) => {
-                state.data = action.payload
+                state.filteredData = action.payload
             })
     }
 })
