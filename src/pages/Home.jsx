@@ -16,6 +16,9 @@ const home = () => {
   const [page, setPage] = useState(0);
   const [articles, setArticles] = useState([])
   const [isFiltering, setIsFiltering] = useState(false);
+  const newsApi = useSelector(state => state.newsApi);
+  const nyTimes = useSelector(state => state.nyTimes);
+  const guardian = useSelector(state => state.guardian);
   useEffect(() => {
     Promise.all([dispatch(getNytNews(page)), dispatch(getGuardianNews(page + 1)), dispatch(getNewsApi(page))]).then(responses => {
       const data = [];
@@ -43,7 +46,7 @@ const home = () => {
                 image: article.urlToImage ? article.urlToImage : noImg,
                 link: article.url,
                 _createdAt: article.publishedAt,
-                
+
               })
             }
             if (res.type.startsWith('guardian')) {
@@ -64,7 +67,52 @@ const home = () => {
       });
       setArticles([...articles, ...data]);
     }).catch(err => console.log('error fetch articles', err))
-  }, [dispatch, page, isFiltering]);
+  }, [dispatch, page]);
+
+  useEffect(() => {
+    if (isFiltering === 0 && newsApi.filteredData && newsApi.filteredData.length > 0) {
+      console.log('newsapi', newsApi.filteredData)
+      const data = newsApi.filteredData.map((article) => {
+        return {
+          id: 'guardian_' + article.webPublicationDate,
+          title: article.webTitle,
+          description: article.webTitle,
+          author: article.sectionName ? article.sectionName : 'Unknown', // author image
+          image: article.urlToImage ? article.urlToImage : noImg,
+          link: article.webUrl,
+        }
+      })
+      if (data && data.length > 0) setArticles(data)
+    }
+    if (isFiltering === 1 && guardian.filteredData && guardian.filteredData.length > 0) {
+      console.log('guardian', guardian.filteredData)
+      const data = guardian.filteredData.map((article) => {
+        return {
+          id: 'guardian_' + article.webPublicationDate,
+          title: article.webTitle,
+          description: article.webTitle,
+          author: article.sectionName ? article.sectionName : 'Unknown', // author image
+          image: article.urlToImage ? article.urlToImage : noImg,
+          link: article.webUrl,
+        }
+      })
+      if (data && data.length > 0) setArticles(data)
+    }
+    if (isFiltering === 2 && nyTimes.filteredData && nyTimes.filteredData.length > 0) {
+      console.log('nyTimes filteredData', nyTimes.filteredData)
+      const data = nyTimes.filteredData.map((article) => {
+        return {
+          id: 'nyTimes_' + article.pub_date,
+          title: article.abstract,
+          description: article.lead_paragraph,
+          author: article.byline.original ? article.byline.original : 'Unknown', // author image
+          image: getArticleImage(article) ? getArticleImage(article) : noImg,
+          link: article.web_url,
+        }
+      })
+      if (data && data.length > 0) setArticles(data)
+    }
+  }, [isFiltering])
 
   const getArticleImage = (article) => {
     const multimedia = article.multimedia || [];
